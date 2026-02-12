@@ -1,0 +1,199 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 210 40% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 210 40% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 40% 15%;
+
+    /* Medical Blue Theme */
+    --primary: 210 100% 45%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 20% 92%;
+    --secondary-foreground: 210 40% 15%;
+
+    --muted: 210 20% 95%;
+    --muted-foreground: 210 15% 45%;
+
+    --accent: 175 60% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 210 20% 88%;
+    --input: 210 20% 88%;
+    --ring: 210 100% 45%;
+
+    --radius: 0.5rem;
+
+    /* Medical theme colors */
+    --medical-blue: 210 100% 45%;
+    --medical-teal: 175 60% 45%;
+    --medical-green: 145 65% 45%;
+    --medical-gray: 210 15% 50%;
+  }
+
+  .dark {
+    --background: 210 40% 8%;
+    --foreground: 0 0% 98%;
+
+    --card: 210 40% 10%;
+    --card-foreground: 0 0% 98%;
+
+    --popover: 210 40% 10%;
+    --popover-foreground: 0 0% 98%;
+
+    --primary: 210 100% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 20% 20%;
+    --secondary-foreground: 0 0% 98%;
+
+    --muted: 210 20% 18%;
+    --muted-foreground: 210 15% 65%;
+
+    --accent: 175 60% 45%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62% 40%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 210 20% 22%;
+    --input: 210 20% 22%;
+    --ring: 210 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-400 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-600;
+}
+
+/* Medical gradient backgrounds */
+.gradient-medical-blue {
+  background: linear-gradient(135deg, #0066cc 0%, #0052a3 100%);
+}
+
+.gradient-medical-teal {
+  background: linear-gradient(135deg, #00a896 0%, #028090 100%);
+}
+
+.gradient-medical-green {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.gradient-medical-gray {
+  background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+}
+
+.gradient-medical-light {
+  background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+}
+
+/* Professional medical card */
+.medical-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+}
+
+.medical-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+/* Glass effect for medical UI */
+.glass-medical {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+/* Brain visualization glow */
+.brain-glow {
+  filter: drop-shadow(0 0 15px rgba(0, 102, 204, 0.4));
+}
+
+/* Pulse animation for alerts */
+@keyframes pulse-medical {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-pulse-medical {
+  animation: pulse-medical 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Float animation for elements */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Medical button styles */
+.btn-medical-primary {
+  @apply bg-blue-600 hover:bg-blue-700 text-white font-medium;
+}
+
+.btn-medical-secondary {
+  @apply bg-teal-600 hover:bg-teal-700 text-white font-medium;
+}
+
+/* Status badges */
+.badge-success {
+  @apply bg-green-100 text-green-800 border border-green-200;
+}
+
+.badge-warning {
+  @apply bg-yellow-100 text-yellow-800 border border-yellow-200;
+}
+
+.badge-danger {
+  @apply bg-red-100 text-red-800 border border-red-200;
+}
+
+.badge-info {
+  @apply bg-blue-100 text-blue-800 border border-blue-200;
+}

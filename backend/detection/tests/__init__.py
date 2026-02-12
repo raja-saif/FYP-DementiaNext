@@ -1,0 +1,6 @@
+# ...existing code...
+"""Package marker for detection app tests.
+
+Django test discovery requires this file when tests are placed in a subpackage.
+"""
+# ...existing code...
