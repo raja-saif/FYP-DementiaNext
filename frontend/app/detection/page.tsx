@@ -11,7 +11,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Upload, Brain, AlertCircle, CheckCircle2, FileText, Loader2, Download, Eye, Clock, Search, Send, Save, MessageSquare, Trash2, X, ArrowLeft } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useAuth } from '@/contexts/AuthContext'
-import { normalizeDetectionResponse, isDiagnosisComplete } from '@/lib/normalizeDetectionResponse'
+import { normalizeDetectionResponse, isDiagnosisComplete, buildDetectionPollUrl } from '@/lib/normalizeDetectionResponse'
 import { PUBLIC_API_BASE_URL as API_BASE_URL } from '@/lib/publicApi'
 
 type ModelType = 'binary' | 'subtype'
@@ -298,25 +298,37 @@ function DetectionPageContent() {
       }
 
       let result = normalizeDetectionResponse(await response.json())
-      const detectionId =
-        result.id != null && String(result.id).trim() !== ''
-          ? String(result.id)
-          : null
+      let pollUrl = buildDetectionPollUrl(API_BASE_URL, result)
+      const needsPoll = pollUrl != null && !isDiagnosisComplete(result)
 
-      // Some proxies return 202 while the row is still saving; poll GET until diagnosis fields exist.
-      const needsPoll = detectionId != null && !isDiagnosisComplete(result)
-
+      let pollError: string | null = null
       if (needsPoll) {
-        const maxAttempts = 30
-        const intervalMs = 2000
+        const maxAttempts = 60
+        const intervalMs = 3000
+        let failStreak = 0
         for (let attempt = 0; attempt < maxAttempts; attempt++) {
           await new Promise((r) => setTimeout(r, intervalMs))
-          const pollRes = await fetch(
-            `${API_BASE_URL}/api/detection/detections/${detectionId}/`,
-            { headers: { Authorization: `Bearer ${token}` } }
-          )
-          if (!pollRes.ok) continue
+          const pollRes = await fetch(pollUrl!, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          if (!pollRes.ok) {
+            failStreak++
+            if (failStreak >= 5) {
+              pollError = `Could not load detection updates (HTTP ${pollRes.status}). Check login and NEXT_PUBLIC_API_BASE_URL.`
+              break
+            }
+            continue
+          }
+          failStreak = 0
           const polled = normalizeDetectionResponse(await pollRes.json())
+          const st = String(polled.status || '').toLowerCase()
+          if (st === 'failed') {
+            result = polled
+            pollError = String(polled.error_message || 'Detection failed on the server.')
+            break
+          }
+          const nextUrl = buildDetectionPollUrl(API_BASE_URL, polled)
+          if (nextUrl) pollUrl = nextUrl
           if (isDiagnosisComplete(polled)) {
             result = polled
             break
@@ -324,12 +336,27 @@ function DetectionPageContent() {
         }
       }
 
-      if (!isDiagnosisComplete(result)) {
-        setError(
-          detectionId
-            ? 'Results were not ready after waiting. Open this scan from history or try again in a moment.'
-            : 'The server returned an incomplete response (no detection id). Check your API or proxy logs.'
-        )
+      const finalPollUrl = buildDetectionPollUrl(API_BASE_URL, result)
+
+      if (pollError) {
+        setError(pollError)
+      } else if (!isDiagnosisComplete(result)) {
+        const st = String(result.status || '').toLowerCase()
+        if (st === 'failed') {
+          setError(String(result.error_message || 'Detection failed on the server.'))
+        } else if (!finalPollUrl) {
+          setError(
+            'The server returned an incomplete response (no id or detection_id to poll). Open Network → upload_and_detect → Response and confirm fields, or check your API proxy.'
+          )
+        } else if (st === 'processing' || st === 'pending') {
+          setError(
+            'This scan is still processing after waiting ~3 minutes. The host may have closed the upload request early (e.g. Hugging Face timeout) while Django was still running, leaving the row stuck. Check Space logs, then open the scan from history or re-upload.'
+          )
+        } else {
+          setError(
+            'No diagnosis data in API responses (predicted_class / confidence_score missing). Check Django logs: inference may be failing after preprocessing.'
+          )
+        }
       }
 
       const modelTypeKey: ModelType =

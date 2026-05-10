@@ -783,6 +783,20 @@ class DetectionViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(detections, many=True)
         return Response(serializer.data)
 
+    @action(detail=False, methods=['get'], url_path='by-detection-id')
+    def by_detection_id(self, request):
+        """Resolve a human-readable detection_id (DET…) when the client only has that, not the PK."""
+        human_id = (request.query_params.get('detection_id') or '').strip()
+        if not human_id:
+            return Response(
+                {'error': 'detection_id query parameter is required'},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        obj = self.get_queryset().filter(detection_id=human_id).first()
+        if not obj:
+            return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+        return Response(DetectionResultSerializer(obj).data)
+
     @action(detail=True, methods=['post'], url_path='rerun')
     def rerun_detection(self, request, pk=None):
         """Re-run inference on an already preprocessed MRI, skipping the pipeline.

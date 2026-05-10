@@ -13,6 +13,8 @@ function pick(r: Record<string, unknown>, snake: string, camel: string): unknown
 
 export type NormalizedDetection = Record<string, unknown> & {
   id?: unknown
+  detection_id?: unknown
+  error_message?: unknown
   predicted_class?: unknown
   predicted_class_display?: unknown
   confidence_score?: unknown
@@ -23,6 +25,27 @@ export type NormalizedDetection = Record<string, unknown> & {
   model_version?: unknown
   model_type?: unknown
   status?: unknown
+}
+
+/**
+ * Detail URL for polling after async upload (numeric PK, or human detection_id lookup).
+ */
+export function buildDetectionPollUrl(
+  apiBase: string,
+  r: NormalizedDetection
+): string | null {
+  const root = `${String(apiBase).replace(/\/$/, '')}/api/detection/detections`
+  const rawPk = r.id ?? (r as Record<string, unknown>).pk
+  const pkStr = rawPk != null ? String(rawPk).trim() : ''
+  if (pkStr && /^\d+$/.test(pkStr)) {
+    return `${root}/${pkStr}/`
+  }
+  const hid = r.detection_id ?? pick(r as Record<string, unknown>, 'detection_id', 'detectionId')
+  const hidStr = hid != null ? String(hid).trim() : ''
+  if (hidStr) {
+    return `${root}/by-detection-id/?detection_id=${encodeURIComponent(hidStr)}`
+  }
+  return null
 }
 
 /** True when the payload has usable diagnosis fields for the UI. */
@@ -70,9 +93,16 @@ export function normalizeDetectionResponse(raw: unknown): NormalizedDetection {
     pick(r, 'prediction_probability', 'predictionProbability') ??
     r.probabilities
 
+  const pk =
+    r.id !== undefined && r.id !== null
+      ? r.id
+      : (r as Record<string, unknown>).pk
+
   return {
     ...r,
-    id: r.id,
+    id: pk,
+    detection_id: pick(r, 'detection_id', 'detectionId'),
+    error_message: pick(r, 'error_message', 'errorMessage'),
     predicted_class: pred,
     predicted_class_display: pick(r, 'predicted_class_display', 'predictedClassDisplay'),
     confidence_score: conf,
