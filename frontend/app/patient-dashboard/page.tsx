@@ -13,7 +13,7 @@ import {
   Download, ArrowLeft
 } from 'lucide-react'
 
-const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000').replace(/\/$/, '')
+import { PUBLIC_API_BASE_URL as API_BASE } from '@/lib/publicApi'
 
 interface LifeStoryEntry {
   id: number

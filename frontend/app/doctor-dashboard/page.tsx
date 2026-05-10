@@ -13,8 +13,7 @@ import {
   Users, Search, Activity, Brain, FileText, Download, Eye, 
   Stethoscope, X, Loader2, ClipboardList, Send, Save
 } from 'lucide-react'
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'
+import { PUBLIC_API_ROOT as API_URL } from '@/lib/publicApi'
 
 // Types
 interface Appointment {

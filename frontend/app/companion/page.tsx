@@ -11,6 +11,8 @@ import {
   Plus, MessageSquare, Menu, Trash2, Square, X, BookOpen, ArrowLeft
 } from 'lucide-react'
 
+import { PUBLIC_API_BASE_URL as API_BASE } from '@/lib/publicApi'
+
 interface Message {
   id: number
   role: 'user' | 'assistant'
@@ -26,8 +28,6 @@ interface Session {
   summary: string
   last_message: { role: string; content_text: string } | null
 }
-
-const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000').replace(/\/$/, '')
 
 export default function CompanionPage() {
   const { user, isLoading: authLoading } = useAuth()
