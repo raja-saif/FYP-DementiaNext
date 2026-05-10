@@ -12,10 +12,9 @@ import { Upload, Brain, AlertCircle, CheckCircle2, FileText, Loader2, Download, 
 import { motion } from 'framer-motion'
 import { useAuth } from '@/contexts/AuthContext'
 import { normalizeDetectionResponse } from '@/lib/normalizeDetectionResponse'
+import { PUBLIC_API_BASE_URL as API_BASE_URL } from '@/lib/publicApi'
 
 type ModelType = 'binary' | 'subtype'
-
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:8000'
 
 // Class labels for display
 const CLASS_LABELS: Record<string, string> = {

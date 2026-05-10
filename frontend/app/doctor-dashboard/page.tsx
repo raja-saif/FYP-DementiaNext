@@ -9,13 +9,13 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts'
-import { 
+import {
   Users, Search, Activity, Brain, FileText, Download, Eye, 
   Stethoscope, X, Loader2, ClipboardList, Send, Save
 } from 'lucide-react'
+import { PUBLIC_API_ROOT } from '@/lib/publicApi'
 
-const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:8000').replace(/\/$/, '')
-const API_URL = (process.env.NEXT_PUBLIC_API_URL || `${API_BASE}/api`).replace(/\/$/, '')
+const API_URL = PUBLIC_API_ROOT
 
 // Types
 interface Appointment {

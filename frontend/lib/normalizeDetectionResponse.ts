@@ -29,8 +29,25 @@ export function normalizeDetectionResponse(raw: unknown): NormalizedDetection {
   let r = asRecord(raw)
   if (!r) return {}
 
+  // Gateways sometimes wrap as { data: { ... } }. Never replace the whole payload
+  // with an empty `data: {}` — that was wiping real fields on the root object.
   const inner = asRecord(r.data)
-  if (inner) r = inner
+  if (inner && Object.keys(inner).length > 0) {
+    const innerLooksLikeDetection =
+      'predicted_class' in inner ||
+      'predictedClass' in inner ||
+      'confidence_score' in inner ||
+      'confidenceScore' in inner ||
+      'confidence' in inner ||
+      ('id' in inner &&
+        ('status' in inner || 'detection_id' in inner || 'predicted_class' in inner))
+    const rootHasPrediction =
+      pick(r, 'predicted_class', 'predictedClass') !== undefined ||
+      pick(r, 'confidence_score', 'confidenceScore') !== undefined
+    if (innerLooksLikeDetection && !rootHasPrediction) {
+      r = { ...r, ...inner }
+    }
+  }
 
   const pred = pick(r, 'predicted_class', 'predictedClass')
   const conf =

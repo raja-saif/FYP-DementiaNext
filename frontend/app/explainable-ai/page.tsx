@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Eye, Brain, Activity, AlertCircle, Loader2, ImageIcon, Layers, ArrowLeft, RefreshCw, TrendingUp, Info, Play, Pause, SkipBack, SkipForward, ScanLine } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
+import { PUBLIC_API_BASE_URL } from '@/lib/publicApi'
 
 interface GradCAMData {
   detection_id: string
@@ -104,9 +105,8 @@ function ExplainableAIContent() {
     setSlicesLoading(true)
     setSlicesError(null)
     try {
-      const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:8000'
       const response = await fetch(
-        `${apiBase}/api/detection/detections/${id}/explainability_slices/?num_slices=30`,
+        `${PUBLIC_API_BASE_URL}/api/detection/detections/${id}/explainability_slices/?num_slices=30`,
         { headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' } },
       )
       if (!response.ok) {
@@ -133,8 +133,7 @@ function ExplainableAIContent() {
     setGradcamLoading(true)
     setGradcamError(null)
     try {
-      const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:8000'
-      const url = `${apiBase}/api/detection/detections/${id}/explainability/`
+      const url = `${PUBLIC_API_BASE_URL}/api/detection/detections/${id}/explainability/`
       console.log('Fetching XAI data from:', url)
       
       const response = await fetch(url, {
