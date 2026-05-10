@@ -11,7 +11,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Upload, Brain, AlertCircle, CheckCircle2, FileText, Loader2, Download, Eye, Clock, Search, Send, Save, MessageSquare, Trash2, X, ArrowLeft } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { useAuth } from '@/contexts/AuthContext'
-import { normalizeDetectionResponse } from '@/lib/normalizeDetectionResponse'
+import { normalizeDetectionResponse, isDiagnosisComplete } from '@/lib/normalizeDetectionResponse'
 import { PUBLIC_API_BASE_URL as API_BASE_URL } from '@/lib/publicApi'
 
 type ModelType = 'binary' | 'subtype'
@@ -297,7 +297,40 @@ function DetectionPageContent() {
         throw new Error(`Server error (${response.status}). Please check that the backend is running.`)
       }
 
-      const result = normalizeDetectionResponse(await response.json())
+      let result = normalizeDetectionResponse(await response.json())
+      const detectionId =
+        result.id != null && String(result.id).trim() !== ''
+          ? String(result.id)
+          : null
+
+      // Some proxies return 202 while the row is still saving; poll GET until diagnosis fields exist.
+      const needsPoll = detectionId != null && !isDiagnosisComplete(result)
+
+      if (needsPoll) {
+        const maxAttempts = 30
+        const intervalMs = 2000
+        for (let attempt = 0; attempt < maxAttempts; attempt++) {
+          await new Promise((r) => setTimeout(r, intervalMs))
+          const pollRes = await fetch(
+            `${API_BASE_URL}/api/detection/detections/${detectionId}/`,
+            { headers: { Authorization: `Bearer ${token}` } }
+          )
+          if (!pollRes.ok) continue
+          const polled = normalizeDetectionResponse(await pollRes.json())
+          if (isDiagnosisComplete(polled)) {
+            result = polled
+            break
+          }
+        }
+      }
+
+      if (!isDiagnosisComplete(result)) {
+        setError(
+          detectionId
+            ? 'Results were not ready after waiting. Open this scan from history or try again in a moment.'
+            : 'The server returned an incomplete response (no detection id). Check your API or proxy logs.'
+        )
+      }
 
       const modelTypeKey: ModelType =
         result.model_type === 'subtype'

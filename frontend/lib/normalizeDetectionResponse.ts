@@ -25,6 +25,19 @@ export type NormalizedDetection = Record<string, unknown> & {
   status?: unknown
 }
 
+/** True when the payload has usable diagnosis fields for the UI. */
+export function isDiagnosisComplete(r: NormalizedDetection): boolean {
+  const pc = r.predicted_class
+  const hasClass =
+    pc != null &&
+    (typeof pc === 'number' ||
+      (typeof pc === 'string' && String(pc).trim().length > 0))
+  const cs = r.confidence_score
+  const conf =
+    typeof cs === 'number' ? cs : cs != null ? Number.parseFloat(String(cs)) : NaN
+  return Boolean(hasClass && Number.isFinite(conf))
+}
+
 export function normalizeDetectionResponse(raw: unknown): NormalizedDetection {
   let r = asRecord(raw)
   if (!r) return {}

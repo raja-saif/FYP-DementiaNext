@@ -801,16 +801,20 @@ class DetectionViewSet(viewsets.ModelViewSet):
             model_type = 'binary'
 
         try:
-            # Create a new DetectionResult reusing the same patient and file
-            new_detection = DetectionResult.objects.create(
+            # Create a new DetectionResult reusing the same patient and file.
+            # Point at the same stored upload as `source` (same `name` in storage). Using
+            # `uploaded_file=source.uploaded_file.name` alone breaks FieldFile behavior
+            # on some storages and reruns.
+            new_detection = DetectionResult(
                 patient=source.patient,
                 doctor=request.user,
-                uploaded_file=source.uploaded_file.name,
                 preprocessed_file=source.preprocessed_file,
                 file_size=source.file_size,
                 model_type=model_type,
                 status='processing',
             )
+            new_detection.uploaded_file.name = source.uploaded_file.name
+            new_detection.save()
 
             _ensure_ml_libs()
             start_time = time.time()
@@ -856,6 +860,17 @@ class DetectionViewSet(viewsets.ModelViewSet):
 
             return Response(DetectionResultSerializer(new_detection).data, status=status.HTTP_201_CREATED)
 
+        except ValueError as e:
+            logger.warning('Rerun detection validation error: %s', str(e))
+            nd = locals().get('new_detection')
+            if nd is not None:
+                try:
+                    nd.status = 'failed'
+                    nd.error_message = str(e)
+                    nd.save()
+                except Exception:
+                    logger.exception('Could not persist rerun failure')
+            return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             logger.error(f"Rerun detection error: {str(e)}")
             nd = locals().get('new_detection')
