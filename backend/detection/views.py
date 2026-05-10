@@ -488,8 +488,33 @@ class DetectionViewSet(viewsets.ModelViewSet):
                 create_params['doctor'] = request.user
                 
             detection_result = DetectionResult.objects.create(**create_params)
-            
-            # Process the image and run model
+
+            use_async = os.environ.get("ASYNC_DETECTION", "").lower() in (
+                "1",
+                "true",
+                "yes",
+            )
+            if use_async:
+                try:
+                    from django_q.tasks import async_task
+                except ImportError:
+                    async_task = None
+                    logger.warning(
+                        "ASYNC_DETECTION is set but django-q is not installed; "
+                        "running detection synchronously in this process."
+                    )
+                if async_task is not None:
+                    async_task(
+                        "detection.tasks.run_detection_task",
+                        detection_result.pk,
+                    )
+                    detection_result.refresh_from_db()
+                    return Response(
+                        DetectionResultSerializer(detection_result).data,
+                        status=status.HTTP_202_ACCEPTED,
+                    )
+
+            # Process the image and run model (sync path — local dev default)
             start_time = time.time()
             result = self._process_image(detection_result)
             processing_time = time.time() - start_time
