@@ -295,10 +295,16 @@ class MRIPreprocessorPhase2:
                 is_2d = sequence_info['is_2d']
                 
                 print(f"   Detected: {seq_type} | {'2D' if is_2d else '3D'} | Dataset: {self.dataset_name}")
-                
-                # Skip HD-BET / FSL BET — use classical intensity-based extraction
-                print("   Using enhanced classical brain extraction...")
-                brain_mask = self._extract_brain_mask_enhanced(data, sequence_type=seq_type, is_2d=is_2d)
+
+                # HD-BET (if `hd-bet` on PATH) + classical ensemble; fallback to classical-only
+                brain_mask = self._ensemble_skull_strip(
+                    nifti_file, data, img.affine, sequence_type=seq_type, is_2d=is_2d
+                )
+                if brain_mask is None or not np.any(brain_mask > 0):
+                    print("   Using enhanced classical brain extraction (fallback)...")
+                    brain_mask = self._extract_brain_mask_enhanced(
+                        data, sequence_type=seq_type, is_2d=is_2d
+                    )
                 
                 skull_stripped_data = data * brain_mask
                 
@@ -421,9 +427,6 @@ class MRIPreprocessorPhase2:
             nifti_file: Input NIfTI file
             mode: 't1', 't2', or 'default'
         """
-        # HD-BET disabled — skip straight to classical fallback
-        print(f"   ⏭️  HD-BET skipped (disabled)")
-        return None
         try:
             import shutil
             import subprocess
@@ -628,7 +631,7 @@ class MRIPreprocessorPhase2:
             print(f"   ⚠️  FSL BET exception: {type(e).__name__}: {str(e)}")
             return None
 
-    def _ensemble_skull_strip(self, nifti_file, data, affine):
+    def _ensemble_skull_strip(self, nifti_file, data, affine, sequence_type='UNKNOWN', is_2d=False):
         """
         Optimized ensemble: HD-BET + Enhanced Classical
         
@@ -646,9 +649,16 @@ class MRIPreprocessorPhase2:
         methods_used = []
         
         print("   🧠 Running optimized ensemble (HD-BET + Classical)...")
-        
+
+        if sequence_type in ("T2", "GRE"):
+            hdbet_mode = "t2"
+        elif sequence_type in ("T1", "MPRAGE", "FSPGR"):
+            hdbet_mode = "t1"
+        else:
+            hdbet_mode = "default"
+
         # Method 1: HD-BET (deep learning, excellent for most cases)
-        hdbet_path = self._try_hdbet(nifti_file)
+        hdbet_path = self._try_hdbet(nifti_file, mode=hdbet_mode)
         if hdbet_path and Path(hdbet_path).exists():
             try:
                 hdbet_mask = (nib.load(hdbet_path).get_fdata() > 0).astype(np.float32)
@@ -660,7 +670,9 @@ class MRIPreprocessorPhase2:
         
         # Method 2: Enhanced Classical (always add for robustness)
         try:
-            classical_mask = self._extract_brain_mask_enhanced(data)
+            classical_mask = self._extract_brain_mask_enhanced(
+                data, sequence_type=sequence_type, is_2d=is_2d
+            )
             if classical_mask is not None and np.any(classical_mask):
                 masks.append(classical_mask)
                 methods_used.append("Classical")

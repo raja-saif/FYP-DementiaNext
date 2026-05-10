@@ -1,3 +1,4 @@
+import math
 import os
 import time
 from io import BytesIO
@@ -15,6 +16,34 @@ from .serializers import (
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+def _finalize_detection_from_inference(detection_result, result: dict, processing_time: float) -> None:
+    """
+    Persist model outputs and mark completed. Raises ValueError if the
+    model did not return usable diagnosis fields (avoids 201 with nulls).
+    """
+    pred = result.get('predicted_class')
+    conf = result.get('confidence')
+    if pred is None or (isinstance(pred, str) and not pred.strip()):
+        raise ValueError('AI inference returned no predicted_class.')
+    if conf is None:
+        raise ValueError('AI inference returned no confidence score.')
+    try:
+        conf_f = float(conf)
+    except (TypeError, ValueError) as exc:
+        raise ValueError(f'AI inference returned invalid confidence: {conf!r}') from exc
+    if not math.isfinite(conf_f):
+        raise ValueError('AI inference returned non-finite confidence.')
+
+    detection_result.status = 'completed'
+    detection_result.predicted_class = pred
+    detection_result.confidence_score = conf_f
+    detection_result.prediction_probability = result.get('probabilities')
+    detection_result.analysis_details = result.get('analysis')
+    detection_result.processing_time = processing_time
+    detection_result.save()
+
 
 # ML libraries are imported lazily at inference time so the server can
 # start even when torch / torchvision / nibabel are not installed.
@@ -337,25 +366,22 @@ class DetectionViewSet(viewsets.ModelViewSet):
             start_time = time.time()
             result = self._process_image(detection_result)
             processing_time = time.time() - start_time
-            
-            # Update result
-            detection_result.status = 'completed'
-            detection_result.predicted_class = result['predicted_class']
-            detection_result.confidence_score = result['confidence']
-            detection_result.prediction_probability = result['probabilities']
-            detection_result.analysis_details = result['analysis']
-            detection_result.processing_time = processing_time
-            detection_result.save()
-            
+
+            _finalize_detection_from_inference(detection_result, result, processing_time)
+            detection_result.refresh_from_db()
+
             return Response(
                 DetectionResultSerializer(detection_result).data,
                 status=status.HTTP_200_OK
             )
-        
+
         except Exception as e:
-            detection_result.status = 'failed'
-            detection_result.error_message = str(e)
-            detection_result.save()
+            try:
+                detection_result.status = 'failed'
+                detection_result.error_message = str(e)
+                detection_result.save()
+            except Exception:
+                logger.exception('Could not persist failed detection status')
             logger.error(f"Detection error: {str(e)}")
             return Response(
                 {'error': str(e)},
@@ -467,25 +493,24 @@ class DetectionViewSet(viewsets.ModelViewSet):
             start_time = time.time()
             result = self._process_image(detection_result)
             processing_time = time.time() - start_time
-            
-            # Update result
-            detection_result.status = 'completed'
-            detection_result.predicted_class = result['predicted_class']
-            detection_result.confidence_score = result['confidence']
-            detection_result.prediction_probability = result['probabilities']
-            detection_result.analysis_details = result['analysis']
-            detection_result.processing_time = processing_time
-            detection_result.save()
-            
+
+            _finalize_detection_from_inference(detection_result, result, processing_time)
+            detection_result.refresh_from_db()
+
             return Response(
                 DetectionResultSerializer(detection_result).data,
                 status=status.HTTP_201_CREATED
             )
-        
+
         except Exception as e:
-            detection_result.status = 'failed'
-            detection_result.error_message = str(e)
-            detection_result.save()
+            dr = locals().get('detection_result')
+            if dr is not None:
+                try:
+                    dr.status = 'failed'
+                    dr.error_message = str(e)
+                    dr.save()
+                except Exception:
+                    logger.exception('Could not persist failed detection status')
             logger.error(f"Detection error: {str(e)}")
             return Response(
                 {'error': str(e)},
@@ -826,22 +851,21 @@ class DetectionViewSet(viewsets.ModelViewSet):
 
             processing_time = time.time() - start_time
 
-            new_detection.status = 'completed'
-            new_detection.predicted_class = result['predicted_class']
-            new_detection.confidence_score = result['confidence']
-            new_detection.prediction_probability = result['probabilities']
-            new_detection.analysis_details = result['analysis']
-            new_detection.processing_time = processing_time
-            new_detection.save()
+            _finalize_detection_from_inference(new_detection, result, processing_time)
+            new_detection.refresh_from_db()
 
             return Response(DetectionResultSerializer(new_detection).data, status=status.HTTP_201_CREATED)
 
         except Exception as e:
             logger.error(f"Rerun detection error: {str(e)}")
-            if 'new_detection' in dir():
-                new_detection.status = 'failed'
-                new_detection.error_message = str(e)
-                new_detection.save()
+            nd = locals().get('new_detection')
+            if nd is not None:
+                try:
+                    nd.status = 'failed'
+                    nd.error_message = str(e)
+                    nd.save()
+                except Exception:
+                    logger.exception('Could not persist rerun failure')
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     
     @action(detail=False, methods=['get'])
