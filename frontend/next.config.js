@@ -1,11 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
-  // swcMinify removed — enabled by default since Next 13+ (avoid duplicate opt)
-  experimental: {
-    // framer-motion omitted: optimizePackageImports can break its module graph (webpack "__webpack_modules__[moduleId] is not a function")
-    optimizePackageImports: ['lucide-react', 'recharts'],
-  },
+  // Avoid experimental.optimizePackageImports — it has caused production webpack
+  // "Cannot read properties of undefined (reading 'call')" / broken chunks on Vercel.
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
