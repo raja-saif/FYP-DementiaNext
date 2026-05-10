@@ -160,14 +160,26 @@ def _get_collection(mode: str = "caregiver"):
         logger.info("Building RAG index [%s] from %s …", col_name, _KNOWLEDGE_DIR)
         current_hash = _file_content_hash(_KNOWLEDGE_DIR, include_files)
 
-        col = client.create_collection(
-            name=col_name,
-            metadata={
-                "content_hash": current_hash,
-                _EMBED_META_KEY: _EMBED_META_VAL,
-            },
-            embedding_function=_get_chroma_embed_fn(),
-        )
+        try:
+            col = client.create_collection(
+                name=col_name,
+                metadata={
+                    "content_hash": current_hash,
+                    _EMBED_META_KEY: _EMBED_META_VAL,
+                },
+                embedding_function=_get_chroma_embed_fn(),
+            )
+        except Exception as e:
+            # Multiple gunicorn workers can warm up RAG in parallel; Chroma then
+            # raises if another worker created the collection first.
+            if "already exists" in str(e).lower():
+                logger.warning(
+                    "Chroma collection %s already exists (parallel warm-up); attaching.",
+                    col_name,
+                )
+                col = client.get_collection(name=col_name)
+            else:
+                raise
 
         all_docs: list[str] = []
         all_ids: list[str] = []
