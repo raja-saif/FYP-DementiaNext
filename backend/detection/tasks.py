@@ -1,36 +1,35 @@
 """
-Background detection jobs (django-q on Hugging Face and similar).
+Background detection jobs (django-q on Hugging Face, etc.).
 
-Set on the server: ASYNC_DETECTION=1 to return 202 from upload_and_detect and
-finish work in this task.
+This module does NOT use Modal.com. Preprocessing + inference run inside the same
+container as Django. If logs still show ``modal.exception.ConflictError``, the
+Space is running an old image or a forked file that calls Modal — rebuild the
+Space from this repo's ``main`` (Factory reboot), not a cached layer.
 
-Set MODAL_PREPROCESSING=0 (recommended) to run the MRI pipeline inside the Space.
-This repo does not ship Modal.com wiring; a disabled Modal workspace causes:
-
-    modal.exception.ConflictError: workspace … is disabled
+Environment:
+  ASYNC_DETECTION=1 — set on the server so ``upload_and_detect`` enqueues this
+  task and returns HTTP 202 (see ``DetectionViewSet.upload_and_detect``).
 """
 
 from __future__ import annotations
 
 import logging
-import os
 import time
 
 logger = logging.getLogger(__name__)
 
-
-def _modal_enabled() -> bool:
-    return os.environ.get("MODAL_PREPROCESSING", "0").lower() in ("1", "true", "yes")
+_TASKS_BUILD_ID = "in-process-2026-05-10"
+_tasks_boot_logged = False
 
 
 def run_detection_task(detection_id: int) -> None:
     """django-q hook: load row, run pipeline + inference in-process."""
-    if _modal_enabled():
-        raise RuntimeError(
-            "MODAL_PREPROCESSING is enabled but this repository build runs preprocessing "
-            "only inside the container. On Hugging Face → Space → Settings → Variables, "
-            "set MODAL_PREPROCESSING=0 (or remove it). Re-enable a paid Modal workspace "
-            "only if you vendor Modal app code compatible with your deployment."
+    global _tasks_boot_logged
+    if not _tasks_boot_logged:
+        _tasks_boot_logged = True
+        logger.info(
+            "detection.tasks run_detection_task build=%s (no third-party GPU sandbox)",
+            _TASKS_BUILD_ID,
         )
 
     from .models import DetectionResult
