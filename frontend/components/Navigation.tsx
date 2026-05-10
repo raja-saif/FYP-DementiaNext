@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import Logo from './Logo'
-import { Brain, Activity, LogIn, LogOut, Menu, X, User, LayoutDashboard } from 'lucide-react'
+import { Brain, Activity, LogIn, LogOut, Menu, X, User, LayoutDashboard, MessageCircle, BookOpen, BarChart3 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from './ui/button'
 import { useAuth } from '@/contexts/AuthContext'
@@ -35,8 +35,9 @@ const Navigation = () => {
 
   const navItems = [
     { href: '/', label: 'Home', icon: Brain, show: true },
-    { href: '/detection', label: 'Detection', icon: Activity, show: isAuthenticated },
-    { href: '/explainable-ai', label: 'Analysis', icon: Activity, show: isAuthenticated },
+    { href: '/detection', label: 'Detection', icon: Activity, show: isAuthenticated && userRole === 'doctor' },
+    { href: '/companion', label: 'Companion', icon: MessageCircle, show: isAuthenticated && userRole !== 'doctor' },
+
   ].filter(item => item.show)
 
   const getDashboardLink = () => {
@@ -51,60 +52,87 @@ const Navigation = () => {
   }
 
   return (
-    <nav className="bg-white/80 backdrop-blur-xl border-b border-gray-200 sticky top-0 z-50 shadow-lg">
+    <nav
+      className={cn(
+        "sticky top-0 z-50 backdrop-blur-xl border-b",
+        "bg-[rgba(17,21,30,0.78)] border-white/[0.07]",
+        "shadow-[0_8px_32px_-12px_rgba(0,0,0,0.55)]"
+      )}
+    >
+      {/* subtle neon accent line */}
+      <div className="absolute inset-x-0 -bottom-px h-px bg-gradient-to-r from-transparent via-[#4ADE80]/40 to-transparent" />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-4 group">
+          <Link href="/" className="flex items-center space-x-3 group">
             <Logo />
-            <span className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-teal-600 to-green-600 bg-clip-text text-transparent">
+            <span className="text-2xl font-bold gradient-text-brand tracking-tight">
               DementiaNext
             </span>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-3">
-            {/* Navigation Items */}
-            <div className="flex items-center space-x-2">
-              {navItems.map((item) => (
-                <Link key={item.href} href={item.href}>
-                  <div className={cn(
-                    "flex items-center space-x-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all relative overflow-hidden",
-                    pathname === item.href 
-                      ? "bg-gradient-to-r from-blue-600 to-teal-600 text-white shadow-lg" 
-                      : "text-gray-600 hover:bg-gray-100"
-                  )}>
-                    <item.icon className="w-4 h-4" />
-                    <span>{item.label}</span>
-                  </div>
-                </Link>
-              ))}
+            <div className="flex items-center space-x-1">
+              {navItems.map((item) => {
+                const active = pathname === item.href
+                return (
+                  <Link key={item.href} href={item.href}>
+                    <div
+                      className={cn(
+                        "flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 border",
+                        active
+                          ? "bg-[rgba(74,222,128,0.10)] text-[#4ADE80] border-[rgba(74,222,128,0.30)] shadow-[0_0_18px_-6px_rgba(74,222,128,0.50)]"
+                          : "text-foreground/75 border-transparent hover:bg-white/[0.04] hover:text-foreground hover:border-white/[0.07]"
+                      )}
+                    >
+                      <item.icon className="w-4 h-4" />
+                      <span>{item.label}</span>
+                    </div>
+                  </Link>
+                )
+              })}
             </div>
 
-            {/* Authentication Section */}
             <div className="ml-2">
               {isAuthenticated ? (
                 <div className="relative" ref={dropdownRef}>
                   <button
                     onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
-                    className="p-2 rounded-full bg-gradient-to-r from-blue-600 to-teal-600 text-white hover:from-blue-700 hover:to-teal-700 transition-all shadow-lg"
+                    className={cn(
+                      "p-2 rounded-full transition-all duration-200",
+                      "bg-[rgba(74,222,128,0.10)] text-[#4ADE80] border border-[rgba(74,222,128,0.30)]",
+                      "hover:bg-[rgba(74,222,128,0.18)] hover:shadow-[0_0_18px_-4px_rgba(74,222,128,0.50)]"
+                    )}
                   >
                     <User className="w-5 h-5" />
                   </button>
-                  
+
                   {isProfileDropdownOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
+                    <div className="absolute right-0 mt-2 w-52 rounded-xl py-2 z-50 bg-[rgba(24,29,40,0.96)] backdrop-blur-xl border border-white/[0.08] shadow-[0_18px_40px_-12px_rgba(0,0,0,0.65),0_0_28px_-12px_rgba(74,222,128,0.22)]">
                       <Link
                         href={getDashboardLink()}
-                        className="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="flex items-center px-4 py-2.5 text-sm text-foreground/85 hover:bg-white/[0.05] hover:text-[#4ADE80] transition-colors"
                         onClick={() => setIsProfileDropdownOpen(false)}
                       >
                         <LayoutDashboard className="w-4 h-4 mr-3" />
                         Dashboard
                       </Link>
+                      {userRole !== 'doctor' && (
+                        <Link
+                          href="/companion/life-story"
+                          className="flex items-center px-4 py-2.5 text-sm text-foreground/85 hover:bg-white/[0.05] hover:text-[#4ADE80] transition-colors"
+                          onClick={() => setIsProfileDropdownOpen(false)}
+                        >
+                          <BookOpen className="w-4 h-4 mr-3" />
+                          Life Story
+                        </Link>
+                      )}
+                      <div className="my-1 h-px bg-white/[0.06]" />
                       <button
                         onClick={handleLogout}
-                        className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="flex items-center w-full px-4 py-2.5 text-sm text-foreground/85 hover:bg-white/[0.05] hover:text-[#FF7080] transition-colors"
                       >
                         <LogOut className="w-4 h-4 mr-3" />
                         Logout
@@ -114,7 +142,7 @@ const Navigation = () => {
                 </div>
               ) : (
                 <Link href="/login">
-                  <Button className="bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-700 hover:to-teal-700 shadow-lg hover:shadow-xl transition-all">
+                  <Button>
                     <LogIn className="w-4 h-4 mr-2" />
                     Login
                   </Button>
@@ -127,7 +155,7 @@ const Navigation = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-lg text-gray-600 hover:bg-gray-100"
+              className="p-2 rounded-lg text-foreground/80 border border-white/[0.07] bg-white/[0.03] hover:bg-white/[0.06]"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -136,30 +164,33 @@ const Navigation = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="md:hidden border-t border-gray-200 py-4">
+          <div className="md:hidden border-t border-white/[0.07] py-4">
             <div className="space-y-2">
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={cn(
-                    "flex items-center space-x-2 px-4 py-3 rounded-lg text-sm font-medium transition-all",
-                    pathname === item.href 
-                      ? "bg-gradient-to-r from-blue-600 to-teal-600 text-white" 
-                      : "text-gray-600 hover:bg-gray-100"
-                  )}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <item.icon className="w-4 h-4" />
-                  <span>{item.label}</span>
-                </Link>
-              ))}
-              
+              {navItems.map((item) => {
+                const active = pathname === item.href
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={cn(
+                      "flex items-center space-x-2 px-4 py-3 rounded-lg text-sm font-medium transition-all border",
+                      active
+                        ? "bg-[rgba(74,222,128,0.10)] text-[#4ADE80] border-[rgba(74,222,128,0.30)]"
+                        : "text-foreground/75 border-transparent hover:bg-white/[0.04]"
+                    )}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <item.icon className="w-4 h-4" />
+                    <span>{item.label}</span>
+                  </Link>
+                )
+              })}
+
               {isAuthenticated ? (
                 <>
                   <Link
                     href={getDashboardLink()}
-                    className="flex items-center space-x-2 px-4 py-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100"
+                    className="flex items-center space-x-2 px-4 py-3 rounded-lg text-sm font-medium text-foreground/75 hover:bg-white/[0.04]"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
                     <LayoutDashboard className="w-4 h-4" />
@@ -170,7 +201,7 @@ const Navigation = () => {
                       handleLogout()
                       setIsMobileMenuOpen(false)
                     }}
-                    className="flex items-center space-x-2 w-full px-4 py-3 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100"
+                    className="flex items-center space-x-2 w-full px-4 py-3 rounded-lg text-sm font-medium text-foreground/75 hover:bg-white/[0.04]"
                   >
                     <LogOut className="w-4 h-4" />
                     <span>Logout</span>
@@ -179,7 +210,7 @@ const Navigation = () => {
               ) : (
                 <Link
                   href="/login"
-                  className="flex items-center space-x-2 px-4 py-3 rounded-lg text-sm font-medium bg-gradient-to-r from-blue-600 to-teal-600 text-white"
+                  className="flex items-center space-x-2 px-4 py-3 rounded-lg text-sm font-semibold bg-brand-gradient text-[#0E1320]"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   <LogIn className="w-4 h-4" />

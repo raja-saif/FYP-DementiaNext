@@ -199,3 +199,21 @@ def list_doctors(request):
         doctors_list.append(doctor_data)
     
     return Response(doctors_list)
+
+@csrf_exempt
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def list_patients(request):
+    """Get all patients (for doctors)"""
+    if request.user.role != 'doctor':
+        return Response({'error': 'Unauthorized'}, status=status.HTTP_403_FORBIDDEN)
+        
+    patients = User.objects.filter(role='patient', is_active=True)
+    patients_list = []
+    for patient in patients:
+        patients_list.append({
+            'id': patient.id,
+            'name': patient.get_full_name() or patient.email,
+            'email': patient.email
+        })
+    return Response(patients_list)

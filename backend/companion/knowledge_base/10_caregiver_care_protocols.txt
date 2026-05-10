@@ -1,0 +1,81 @@
+EVIDENCE-BASED CARE PROTOCOLS FOR DEMENTIA CAREGIVERS
+Source: Alzheimer's Association, WHO iSupport Programme, National Institute on Aging, Lancet Commission on Dementia
+
+NUTRITION MANAGEMENT BY STAGE
+
+Early Stage Nutrition:
+The person can still prepare simple meals and eat independently but may forget to eat or eat the same thing repeatedly.
+Protocol: maintain regular meal times as part of daily routine. Keep nutritious snacks easily accessible. Use a visible meal schedule (whiteboard or printed calendar). Ensure hydration — dehydration is common and worsens confusion. Weight should be monitored monthly. Encourage Mediterranean-style diet: fish, vegetables, legumes, whole grains, olive oil — evidence suggests association with slower cognitive decline.
+
+Middle Stage Nutrition:
+Increasing difficulty with meal preparation, using utensils, recognizing food, and knowing when to stop eating.
+Protocol: serve one course at a time to reduce confusion. Use adaptive utensils with large, easy-grip handles. Offer finger foods: sandwiches, fruit slices, cheese cubes, meat strips. Use contrasting plate and table colors (dark placemat, white plate) for visual clarity. Minimize distractions — eat in a quiet area, turn off television. Serve meals at the same time daily. Offer favorite childhood or cultural foods. Allow 45-60 minutes for meals — never rush. Monitor for choking — cut food into small pieces. Aim for 1,500-2,000 calories per day with adequate protein (1.0-1.2 g/kg body weight). Supplemental drinks (Ensure, Boost) may help maintain weight.
+
+Late Stage Nutrition:
+Significant swallowing difficulty (dysphagia), risk of aspiration, minimal oral intake.
+Protocol: consult speech-language pathologist for swallowing evaluation. Modify food texture as recommended (pureed, minced, soft). Thicken liquids if thin liquids cause choking. Position the person upright (at least 60 degrees) during meals and for 30 minutes after. Offer small amounts frequently — teaspoon-sized bites. Monitor for signs of aspiration: coughing, wet voice quality, temperature spikes after meals. Oral care is critical — clean mouth after every meal to prevent aspiration pneumonia. Weight loss is expected in late-stage dementia. Discuss goals of care and comfort feeding with the healthcare team. The decision about artificial nutrition (feeding tube) should be discussed early — research shows feeding tubes do NOT prolong life or prevent aspiration pneumonia in advanced dementia and may cause discomfort.
+
+INFECTION PREVENTION
+
+Urinary Tract Infections (UTIs):
+UTIs are the most common infection in dementia patients and the leading non-neurological cause of acute confusion (delirium). In dementia patients, UTI symptoms may NOT include typical burning or frequency. Instead, look for: sudden worsening of confusion, new agitation or aggression, new onset of hallucinations, lethargy, loss of appetite, low-grade fever, new incontinence or change in urine color/odor.
+Prevention: ensure adequate fluid intake (1.5-2 liters per day). Encourage frequent toileting — use a schedule rather than waiting for the patient to ask. Wipe front to back. Avoid constipation (can obstruct urinary flow). Maintain perineal hygiene. Consider cranberry supplements (some evidence for prevention, though not definitive).
+
+Pneumonia (Aspiration Pneumonia):
+The leading cause of death in advanced dementia. Aspiration occurs when food, liquid, or saliva enters the lungs due to impaired swallowing reflexes.
+Prevention: proper positioning during and after meals. Oral hygiene — brushing teeth/cleaning dentures twice daily reduces bacterial load that could be aspirated. Avoid sedating medications that suppress the cough reflex. Annual influenza vaccination. Pneumococcal vaccination per schedule. Hand hygiene for all caregivers. Address dysphagia early with speech therapy assessment.
+
+Skin Infections and Pressure Sores:
+Risk increases with immobility in late-stage dementia. Stage 1: non-blanchable redness. Stage 2: partial-thickness skin loss. Stage 3: full-thickness skin loss. Stage 4: full-thickness tissue loss with exposed bone/tendon.
+Prevention: reposition every 2 hours when in bed. Use pressure-relieving mattresses and cushions. Keep skin clean and dry — moisture from incontinence damages skin. Apply barrier cream to protect perineum. Ensure adequate nutrition and hydration. Inspect skin daily, especially bony prominences (heels, sacrum, elbows, hips, shoulder blades).
+
+COVID-19 AND RESPIRATORY INFECTIONS:
+Dementia is an independent risk factor for severe COVID-19 outcomes. People with dementia may not be able to report symptoms, follow isolation protocols, or understand mask-wearing.
+Protocol: keep vaccinations current. Practice regular hand hygiene — the caregiver is the primary vector. Monitor for subtle signs of respiratory infection: increased confusion, lethargy, decreased appetite, low-grade fever. Maintain good ventilation in living spaces.
+
+FALL PREVENTION
+
+Statistics: dementia patients are 2-3 times more likely to fall than age-matched peers without dementia. Falls are the leading cause of injury-related hospitalization in this population.
+
+Home Safety Assessment Checklist:
+Flooring: remove all throw rugs or secure with double-sided tape. Address uneven surfaces. Use non-slip mats in bathroom and kitchen. Ensure flooring contrasts with walls and furniture. Avoid highly polished/reflective floors — they can look wet or create confusing reflections.
+Lighting: install bright lighting throughout the home, especially hallways, stairs, and bathrooms. Use motion-activated night lights for nighttime navigation. Eliminate shadows that could be misperceived as obstacles or threatening shapes.
+Stairs: install handrails on both sides. Mark step edges with contrasting tape. Consider stair gates if wandering is a concern. Evaluate whether the person can safely manage stairs at all.
+Bathroom: install grab bars near toilet and in shower/tub. Use a raised toilet seat. Use a shower chair and handheld showerhead. Non-slip mat inside tub and on bathroom floor. Remove bathroom lock so the person cannot lock themselves in.
+Kitchen: remove or lock away sharp knives and toxic cleaning products. Install automatic stove shut-off. Remove small appliances that could be dangerous. Store frequently used items at counter height.
+General: remove clutter and obstacles from pathways. Secure electrical cords against walls. Lock away medications, cleaning supplies, firearms, and power tools. Install childproof locks on cabinets containing dangerous items. Remove or cover mirrors if they cause confusion or distress.
+Footwear: non-slip, well-fitting shoes both indoors and outdoors. Avoid loose slippers, stockings, or going barefoot.
+
+TRANSITIONS OF CARE
+
+Home Care → Adult Day Programs:
+When to consider: the caregiver needs regular respite, the patient is isolated and needs socialization, behavioral symptoms are manageable but constant supervision is needed.
+Benefits: structured activities, social interaction, professional oversight for 6-8 hours per day, meals and medication management during the day. Significantly reduces caregiver burden and delays institutional placement.
+
+Home Care → In-Home Professional Caregiving:
+When to consider: the primary caregiver cannot provide sufficient hours of care, nighttime care is needed, the patient needs assistance with ADLs (bathing, dressing, toileting) that the family caregiver cannot provide.
+Options: home health aides (personal care), certified nursing assistants (medical tasks), visiting nurses (skilled nursing), occupational/physical therapists (home safety and mobility).
+
+Home Care → Assisted Living / Memory Care:
+When to consider: safety cannot be maintained at home (wandering, falls, medication errors, leaving the stove on), the caregiver is experiencing severe burnout, the patient's care needs exceed what can be provided at home, behavioral symptoms are unmanageable.
+Memory care units: specialized units within assisted living facilities designed for dementia. Features include secure perimeters (to prevent wandering), higher staff-to-resident ratios, activities designed for cognitive levels, trained staff, structured daily routines.
+Important: this is NOT giving up. It is providing the level of specialized care the person needs. Caregiver guilt is extremely common and should be addressed with counseling and support groups.
+
+Memory Care → Skilled Nursing Facility:
+When to consider: late-stage dementia requiring 24-hour skilled nursing care, tube feeding decisions, complex medical needs alongside dementia.
+
+Hospice and Palliative Care:
+When to consider: the person is in late-stage dementia with functional decline, recurrent infections, weight loss despite adequate nutrition, and decreased ability to communicate.
+Hospice eligibility (general guidelines): FAST Scale stage 7C or beyond (unable to sit without assistance, fewer than 6 intelligible words, unable to walk), plus at least one of: aspiration pneumonia, pyelonephritis, septicemia, multiple Stage 3-4 pressure ulcers, recurrent fever after antibiotics, weight loss of more than 10% in the past 6 months.
+Hospice philosophy: focus on comfort, dignity, and quality of life rather than aggressive medical treatment. Pain management, symptom control, emotional and spiritual support for patient and family. Hospice does NOT mean giving up — it means shifting the goal from cure to comfort.
+
+ADVANCE CARE PLANNING
+Advance care planning should begin as early as possible, ideally in the mild stage when the person can still participate in decisions.
+
+Key Documents:
+1. Advance Directive / Living Will: specifies the person's wishes regarding medical treatments in various scenarios (ventilator, CPR, feeding tube, dialysis, hospitalization).
+2. Durable Power of Attorney for Healthcare (Healthcare Proxy): designates a trusted person to make medical decisions when the patient can no longer do so.
+3. Durable Power of Attorney for Finances: designates a person to manage financial affairs.
+4. POLST/MOLST (Physician/Medical Orders for Life-Sustaining Treatment): a medical order form (not just a legal document) that specifies treatment preferences. Travels with the patient across care settings.
+
+Discussion Points: resuscitation preferences (full code vs. DNR), hospitalization preferences, artificial nutrition and hydration preferences, antibiotic use in late-stage disease, comfort measures preferences. These conversations should be revisited as the disease progresses and understanding evolves.

@@ -1,0 +1,57 @@
+DEMENTIA MEDICATIONS: CLINICAL REFERENCE
+Source: NICE Guidelines TA217, APA Clinical Practice Guidelines, National Institute on Aging
+
+CHOLINESTERASE INHIBITORS
+These medications work by blocking the breakdown of acetylcholine, a neurotransmitter important for memory and learning. They do not cure dementia but can temporarily slow symptom progression in some patients.
+
+DONEPEZIL (Brand name: Aricept)
+Indication: mild, moderate, and severe Alzheimer's disease.
+Dosage: typically starts at 5 mg once daily, may increase to 10 mg after 4-6 weeks. A 23 mg formulation exists for moderate to severe disease.
+Administration: taken once daily at bedtime.
+Common side effects: nausea, diarrhea, vomiting, loss of appetite, muscle cramps, fatigue, insomnia, vivid dreams.
+Serious side effects: slow heart rate (bradycardia), fainting, gastrointestinal bleeding.
+Drug interactions: NSAIDs (increased bleeding risk), anticholinergic medications (counteract the benefit), beta-blockers (increased risk of bradycardia).
+Notes: most widely prescribed dementia medication. Generally well tolerated. Side effects often diminish after the first few weeks.
+
+RIVASTIGMINE (Brand name: Exelon)
+Indication: mild to moderate Alzheimer's disease and Parkinson's disease dementia.
+Dosage: oral — starts at 1.5 mg twice daily, gradually increased to 6 mg twice daily. Transdermal patch — starts at 4.6 mg/24 hours, may increase to 9.5 mg/24 hours or 13.3 mg/24 hours.
+Administration: taken with food (oral) or applied as a skin patch.
+Common side effects: nausea, vomiting, diarrhea, weight loss, dizziness, headache. The transdermal patch causes fewer gastrointestinal side effects than oral form.
+Serious side effects: severe vomiting, pancreatitis, allergic skin reactions with patch.
+Notes: the only cholinesterase inhibitor available as a patch, which is beneficial for patients who have difficulty swallowing or have significant GI side effects. The only cholinesterase inhibitor approved for Parkinson's disease dementia.
+
+GALANTAMINE (Brand name: Razadyne)
+Indication: mild to moderate Alzheimer's disease.
+Dosage: starts at 4 mg twice daily, may increase to 8 mg twice daily, then 12 mg twice daily. Extended-release capsule: 8 mg once daily, increasing to 16 mg then 24 mg once daily.
+Administration: taken with meals.
+Common side effects: nausea, vomiting, diarrhea, dizziness, headache, decreased appetite.
+Serious side effects: slow heart rate, fainting, severe skin reactions.
+Notes: has a dual mechanism — both inhibits acetylcholinesterase and modulates nicotinic receptors. Should not be used in severe hepatic or renal impairment.
+
+MEMANTINE (Brand name: Namenda)
+Indication: moderate to severe Alzheimer's disease.
+Mechanism: NMDA receptor antagonist — works differently from cholinesterase inhibitors by regulating glutamate, another neurotransmitter involved in learning and memory. Excess glutamate can damage nerve cells.
+Dosage: starts at 5 mg once daily, increased by 5 mg weekly to a target of 10 mg twice daily. Extended-release: starts at 7 mg once daily, target dose 28 mg once daily.
+Administration: can be taken with or without food.
+Common side effects: dizziness, headache, constipation, confusion, drowsiness.
+Serious side effects: hallucinations, seizures (rare).
+Drug interactions: other NMDA antagonists (amantadine, dextromethorphan), carbonic anhydrase inhibitors, sodium bicarbonate (alkaline urine increases memantine levels).
+Notes: can be used in combination with cholinesterase inhibitors. The combination of Donepezil and Memantine is common for moderate to severe disease.
+
+COMBINATION THERAPY
+Donepezil + Memantine (Brand name: Namzaric) is available as a fixed-dose combination for moderate to severe Alzheimer's. Using both drug classes together may provide additional benefit compared to either alone.
+
+IMPORTANT CAREGIVER GUIDANCE ON MEDICATIONS
+Never stop dementia medications abruptly without consulting the doctor — sudden withdrawal can cause rapid cognitive decline that may not be recoverable.
+Medications should be taken at the same time each day as part of a routine.
+Monitor for side effects especially in the first 4-6 weeks after starting or increasing dose.
+If the patient has difficulty swallowing pills, ask the doctor about liquid formulations, dissolvable tablets, or patches.
+Dementia medications do not stop the disease from progressing — they temporarily manage symptoms. Families should be prepared for eventual decline despite medication.
+Keep all medications locked away if the patient is confused about dosing — accidental double-dosing is a common safety concern.
+
+MEDICATIONS TO AVOID OR USE WITH CAUTION IN DEMENTIA
+Anticholinergic medications (diphenhydramine/Benadryl, oxybutynin, certain antidepressants) directly counteract cholinesterase inhibitors and can worsen confusion.
+Benzodiazepines (diazepam, lorazepam) increase fall risk and can worsen confusion. They should be avoided if possible.
+Antipsychotics carry a black box warning for increased mortality risk in elderly dementia patients. They should only be used when behavioral symptoms are severe and non-pharmacological approaches have failed. Antipsychotics are particularly dangerous in Lewy body dementia.
+Over-the-counter sleep aids containing diphenhydramine should be avoided.

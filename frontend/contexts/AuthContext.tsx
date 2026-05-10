@@ -41,6 +41,7 @@ interface AuthContextType {
   userRole: UserRole
   isAuthenticated: boolean
   isLoading: boolean
+  token: string | null
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>
   register: (userData: RegisterData) => Promise<{ success: boolean; error?: string }>
   logout: () => Promise<void>
@@ -74,6 +75,7 @@ const AuthContext = createContext<AuthContextType>({
   userRole: null,
   isAuthenticated: false,
   isLoading: true,
+  token: null,
   login: async () => ({ success: false }),
   register: async () => ({ success: false }),
   logout: async () => {},
@@ -84,6 +86,7 @@ export const useAuth = () => useContext(AuthContext)
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null)
+  const [token, setToken] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
 
@@ -94,33 +97,37 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const isAuthenticated = !!user
 
   useEffect(() => {
-    const token = localStorage.getItem('authToken')
-    if (token) {
-      verifyToken(token)
+    const storedToken = localStorage.getItem('authToken')
+    if (storedToken) {
+      setToken(storedToken)
+      verifyToken(storedToken)
     } else {
       setIsLoading(false)
     }
   }, [])
 
-  const verifyToken = async (token: string) => {
+  const verifyToken = async (tokenToVerify: string) => {
     try {
       const response = await fetch(apiUrl('/api/profile'), {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          'Authorization': `Bearer ${tokenToVerify}`,
         },
       })
 
       if (response.ok) {
         const data = await response.json()
         setUser(data.user)
-        localStorage.setItem('authToken', token)
+        setToken(tokenToVerify)
+        localStorage.setItem('authToken', tokenToVerify)
       } else {
+        setToken(null)
         localStorage.removeItem('authToken')
       }
     } catch (error) {
       console.error('Token verification failed:', error)
+      setToken(null)
       localStorage.removeItem('authToken')
     } finally {
       setIsLoading(false)
@@ -128,9 +135,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   }
 
   const refreshUser = async () => {
-    const token = localStorage.getItem('authToken')
-    if (token) {
-      await verifyToken(token)
+    const storedToken = localStorage.getItem('authToken')
+    if (storedToken) {
+      await verifyToken(storedToken)
     }
   }
 
@@ -148,6 +155,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       if (response.ok) {
         setUser(data.user)
+        setToken(data.token)
         localStorage.setItem('authToken', data.token)
         return { success: true }
       } else {
@@ -172,6 +180,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
       if (response.ok) {
         setUser(data.user)
+        setToken(data.token)
         localStorage.setItem('authToken', data.token)
         return { success: true }
       } else {
@@ -188,6 +197,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const logout = async () => {
     try {
       setUser(null)
+      setToken(null)
       localStorage.removeItem('authToken')
       router.push('/login')
     } catch (error) {
@@ -201,6 +211,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       userRole, 
       isAuthenticated, 
       isLoading, 
+      token,
       login, 
       register,
       logout,

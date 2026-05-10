@@ -57,8 +57,8 @@ def main():
     
     # Check Model File
     print(f"\n{Colors.BLUE}Model File:{Colors.END}")
-    model_path = Path("backend/models/alzheimers_detector.pth")
-    if check(model_path.exists(), "alzheimers_detector.pth exists", critical=True):
+    model_path = Path("backend/models/dementia_detector.pth")
+    if check(model_path.exists(), "dementia_detector.pth exists", critical=True):
         size_mb = model_path.stat().st_size / (1024*1024)
         check(size_mb > 50, f"  └─ File size valid ({size_mb:.1f} MB)", critical=True)
         checks_passed += 1
@@ -115,11 +115,31 @@ def main():
     
     # Check Database
     print(f"\n{Colors.BLUE}Database:{Colors.END}")
-    db_path = Path("backend/db.sqlite3")
-    if check(db_path.exists(), "SQLite database exists"):
+    try:
+        import psycopg2
+        from dotenv import load_dotenv
+        # Be flexibile in case run from inside backend/ or run from project root
+        env_path = ".env" if Path(".env").exists() else "backend/.env"
+        load_dotenv(env_path)
+        
+        conn = psycopg2.connect(
+            database=os.environ.get("DB_NAME", "dementianext_db"),
+            user=os.environ.get("DB_USER", "postgres"),
+            password=os.environ.get("DB_PASSWORD", "postgres"),
+            host=os.environ.get("DB_HOST", "localhost"),
+            port=os.environ.get("DB_PORT", "5432")
+        )
+        conn.close()
+        check(True, "PostgreSQL database connected")
         checks_passed += 1
-    else:
-        print(f"  {Colors.YELLOW}ℹ{Colors.END} Run: python manage.py migrate")
+    except ImportError:
+        check(False, "psycopg2 not installed")
+        checks_failed += 1
+    except Exception as e:
+        check(False, "PostgreSQL connection failed")
+        print(f"  {Colors.YELLOW}ℹ{Colors.END} Error: {e}")
+        print(f"  {Colors.YELLOW}ℹ{Colors.END} Verify PostgreSQL is running and credentials in .env are correct")
+        checks_failed += 1
     
     # Summary
     print(f"\n{Colors.BLUE}=== Summary ==={Colors.END}")

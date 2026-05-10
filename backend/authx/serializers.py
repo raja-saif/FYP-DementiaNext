@@ -69,6 +69,11 @@ class RegisterSerializer(serializers.Serializer):
             raise serializers.ValidationError("User with this email already exists.")
         return value.lower()
     
+    def validate_license_number(self, value):
+        if value and DoctorProfile.objects.filter(license_number=value).exists():
+            raise serializers.ValidationError("A doctor with this license number already exists.")
+        return value
+
     def validate(self, data):
         role = data.get('role')
         

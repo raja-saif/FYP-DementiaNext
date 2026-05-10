@@ -1,0 +1,129 @@
+SYMPTOM ASSESSMENT AND MONITORING GUIDE FOR CAREGIVERS
+Source: Alzheimer's Association, American Academy of Neurology, BMJ Best Practice, National Institute on Aging
+
+RED FLAG SYMPTOMS REQUIRING IMMEDIATE MEDICAL ATTENTION
+The following symptoms require urgent evaluation — call the doctor immediately or go to the emergency department:
+
+Sudden onset of confusion or dramatically worsened confusion (not gradual): may indicate stroke, infection (UTI, pneumonia), medication toxicity, or metabolic disturbance (dehydration, hypoglycemia, electrolyte imbalance). Sudden changes are NOT normal dementia progression.
+
+Signs of Stroke — use the FAST method:
+F — Face drooping on one side
+A — Arm weakness (ask them to raise both arms — does one drift down?)
+S — Speech difficulty (slurred or confused speech that is new/different from baseline)
+T — Time to call emergency services immediately
+Note: people with dementia are at higher risk for stroke, especially those with vascular dementia. Even if the person already has confused speech, any SUDDEN change from their baseline warrants evaluation.
+
+Falls with Head Injury: any fall where the head was struck or the person lost consciousness, even briefly. Dementia patients on blood thinners (warfarin, apixaban, rivaroxaban) are at particular risk for subdural hematoma after falls. Symptoms may be delayed hours to days: worsening headache, increased confusion, drowsiness, one-sided weakness.
+
+High Fever (above 38.5°C / 101.3°F): infection is a leading cause of hospitalization and death in dementia patients. UTIs are extremely common and can present with sudden behavioral changes, increased confusion, agitation, or hallucinations rather than typical urinary symptoms. Pneumonia risk increases with advancing dementia due to aspiration (food/liquid entering the lungs).
+
+Sudden Difficulty Swallowing or Choking: dysphagia worsens with dementia progression. Signs include coughing during or after eating, wet/gurgling voice quality after swallowing, food pocketing in cheeks, recurrent pneumonia. Consult a speech-language pathologist for a swallowing evaluation.
+
+Severe Agitation or Aggression That Is New or Escalating: may indicate pain the person cannot articulate, medication side effect, or acute delirium superimposed on dementia. Delirium can be caused by infection, constipation, urinary retention, medication changes, dehydration.
+
+Seizures: new-onset seizures occur in approximately 10-20% of Alzheimer's patients, more commonly in later stages. Any first seizure requires medical evaluation.
+
+BEHAVIORAL SYMPTOM TRACKING — NPI-Q (Neuropsychiatric Inventory Questionnaire)
+The NPI-Q is a clinical tool for assessing behavioral and psychological symptoms. Caregivers should track these domains and report changes to the medical team:
+
+Domain 1 — Delusions: false beliefs such as someone is stealing, spouse is unfaithful, house is not their home. Rate: present/absent, severity (mild/moderate/severe), caregiver distress level.
+Domain 2 — Hallucinations: seeing, hearing, or feeling things that are not there. Are they visual (most common in Lewy body dementia), auditory, or tactile? Are they distressing to the patient or benign?
+Domain 3 — Agitation/Aggression: verbal outbursts, physical aggression, resistance to care. Document triggers, time of day, duration, and what helped resolve it.
+Domain 4 — Depression/Dysphoria: sadness, crying, hopelessness, saying they wish they were dead. In dementia, depression may present as withdrawal, refusal to eat, or increased agitation rather than expressed sadness.
+Domain 5 — Anxiety: nervousness, excessive worry, repetitive questioning about upcoming events, fear of being alone, following the caregiver everywhere (shadowing).
+Domain 6 — Elation/Euphoria: inappropriately happy or giddy mood, laughing at things that are not funny. More common in frontotemporal dementia.
+Domain 7 — Apathy/Indifference: loss of interest in activities, reduced initiative, sitting passively. The most common behavioral symptom in dementia (up to 70%). Distinct from depression.
+Domain 8 — Disinhibition: acting impulsively, saying inappropriate things, undressing in public, touching others inappropriately. More common in frontotemporal dementia.
+Domain 9 — Irritability/Lability: rapid mood changes, impatience, difficult to get along with. May indicate pain, frustration with declining abilities, or medication effects.
+Domain 10 — Aberrant Motor Behavior: pacing, rummaging, repetitive purposeless actions, fidgeting. May reflect anxiety, boredom, or unmet need.
+Domain 11 — Nighttime Behavior: difficulty sleeping, wandering at night, excessive nighttime activity, disturbed sleep-wake cycle.
+Domain 12 — Appetite/Eating Changes: loss of appetite, increased appetite, eating non-food items (pica), forgetting whether they have eaten.
+
+DAILY BEHAVIOR LOG TEMPLATE FOR CAREGIVERS
+Track the following daily to identify patterns and triggers:
+Date and day of week
+Sleep quality (hours slept, nighttime awakenings, daytime naps)
+Meals consumed (amount, what was eaten, any difficulty)
+Fluid intake (aim for 6-8 glasses per day minimum)
+Bowel movements (constipation is a common trigger for agitation)
+Mood throughout the day (note times of best and worst mood)
+Activities engaged in and response (positive, neutral, resistant)
+Any behavioral episodes (time, trigger, duration, what helped)
+Medication compliance (taken on time, any refusals)
+Falls or near-falls
+Pain indicators (grimacing, guarding, moaning, resistance to movement)
+
+PAIN ASSESSMENT IN NON-VERBAL DEMENTIA PATIENTS — PAINAD SCALE
+The Pain Assessment in Advanced Dementia (PAINAD) scale is used when patients cannot self-report pain. Rate each item 0-2:
+
+Breathing (independent of vocalization):
+0 = Normal breathing
+1 = Occasional labored breathing, short period of hyperventilation
+2 = Noisy labored breathing, long period of hyperventilation, Cheyne-Stokes breathing
+
+Negative Vocalization:
+0 = None
+1 = Occasional moan or groan, low-level speech with negative or disapproving quality
+2 = Repeated troubled calling out, loud moaning or groaning, crying
+
+Facial Expression:
+0 = Smiling or inexpressive
+1 = Sad, frightened, frown
+2 = Facial grimacing
+
+Body Language:
+0 = Relaxed
+1 = Tense, distressed pacing, fidgeting
+2 = Rigid, fists clenched, knees pulled up, pulling or pushing away, striking out
+
+Consolability:
+0 = No need to console
+1 = Distracted or reassured by voice or touch
+2 = Unable to console, distract, or reassure
+
+Total Score Interpretation: 0 = no pain, 1-3 = mild pain, 4-6 = moderate pain, 7-10 = severe pain. A PAINAD score of 4 or above warrants pain treatment and medical consultation.
+
+Common sources of undetected pain in dementia: dental problems (broken teeth, ill-fitting dentures, gum disease), constipation, urinary retention or UTI, arthritis, pressure sores, injuries from unwitnessed falls, neuropathy.
+
+WHEN TO ESCALATE — DECISION FRAMEWORK FOR CAREGIVERS
+
+Call Emergency Services (911) immediately if:
+- Signs of stroke (FAST criteria)
+- Seizure lasting more than 5 minutes
+- Loss of consciousness
+- Severe difficulty breathing
+- Fall with head injury and taking blood thinners
+- Chest pain
+- Severe bleeding
+
+Call the Doctor's Office (same day) if:
+- New or worsening confusion that is sudden (delirium vs. dementia)
+- Fever above 38°C / 100.4°F
+- Refusal to eat or drink for more than 24 hours
+- New difficulty swallowing
+- New incontinence or change in urinary pattern
+- Significant increase in agitation or aggression
+- New hallucinations or delusions
+- Signs of pain that are not resolving with over-the-counter measures
+- New skin breakdown or pressure sores
+- Medication side effects (rash, excessive drowsiness, GI symptoms)
+
+Schedule a Routine Appointment if:
+- Gradual changes in behavior or cognition over weeks
+- Weight loss (more than 5% in one month or 10% in six months)
+- Increasing need for assistance with daily activities
+- Sleep pattern changes
+- Questions about medication adjustments
+- Caregiver burnout or inability to manage at current care level
+- Discussion about advance care planning or level of care transitions
+
+COGNITIVE AND FUNCTIONAL ASSESSMENT TOOLS
+Caregivers should be familiar with these clinical tools that doctors may use:
+
+MMSE (Mini-Mental State Examination): 30-point test assessing orientation, registration, attention, recall, language, and visuospatial ability. Scores: 24-30 normal, 20-24 mild dementia, 10-20 moderate dementia, below 10 severe dementia.
+
+MoCA (Montreal Cognitive Assessment): more sensitive than MMSE for detecting mild cognitive impairment. 30-point test. Score below 26 suggests cognitive impairment.
+
+CDR (Clinical Dementia Rating): rates six domains (memory, orientation, judgment, community affairs, home and hobbies, personal care) on a scale of 0 (none) to 3 (severe). CDR 0 = normal, 0.5 = very mild, 1 = mild, 2 = moderate, 3 = severe.
+
+ADL/IADL Assessment: Activities of Daily Living (bathing, dressing, toileting, transferring, eating) and Instrumental Activities of Daily Living (managing finances, medications, transportation, cooking, housework, phone use). Decline in IADLs typically precedes decline in ADLs.

@@ -49,7 +49,15 @@ class Appointment(models.Model):
 class DetectionResult(models.Model):
     DISEASE_CHOICES = [
         ('alzheimers', "Alzheimer's Disease"),
+        ('dementia', 'Dementia Detected'),
         ('cn', 'Control/Normal'),
+        ('pd', "Parkinson's Disease"),
+        ('ftd', 'Frontotemporal Dementia'),
+    ]
+    
+    MODEL_TYPE_CHOICES = [
+        ('binary', 'Binary Dementia Detector'),
+        ('subtype', 'Subtype Classifier'),
     ]
     
     STATUS_CHOICES = [
@@ -67,11 +75,15 @@ class DetectionResult(models.Model):
     
     # Input data
     uploaded_file = models.FileField(upload_to='mri_uploads/%Y/%m/%d/')
+    preprocessed_file = models.CharField(max_length=500, null=True, blank=True)  # path to preprocessed NIfTI
     file_size = models.IntegerField()  # in bytes
     upload_date = models.DateTimeField(auto_now_add=True)
     
+    # Model selection
+    model_type = models.CharField(max_length=20, choices=MODEL_TYPE_CHOICES, default='binary')
+    
     # Results
-    # Store the choice key (e.g. 'alzheimers'/'cn') to enable get_predicted_class_display()
+    # Store the choice key (e.g. 'alzheimers'/'cn'/'pd'/'ftd') to enable get_predicted_class_display()
     predicted_class = models.CharField(max_length=50, choices=DISEASE_CHOICES, null=True, blank=True)
     confidence_score = models.FloatField(null=True, blank=True)  # 0-1
     prediction_probability = models.JSONField(null=True, blank=True)  # Store all class probabilities
@@ -320,8 +332,8 @@ class FHIRDiagnosticReport(models.Model):
                     "coding": [
                         {
                             "system": "http://snomed.info/sct",
-                            "code": "26929004" if self.detection.predicted_class == 'alzheimers' else "17886001",
-                            "display": "Alzheimer's disease" if self.detection.predicted_class == 'alzheimers' else "Normal cognition"
+                            "code": "26929004" if self.detection.predicted_class in ['alzheimers', 'dementia'] else "17886001",
+                            "display": "Alzheimer's disease/Dementia" if self.detection.predicted_class in ['alzheimers', 'dementia'] else "Normal cognition"
                         }
                     ]
                 }
@@ -371,8 +383,8 @@ class FHIRDiagnosticReport(models.Model):
                     "coding": [
                         {
                             "system": "http://snomed.info/sct",
-                            "code": "26929004" if self.detection.predicted_class == 'alzheimers' else "17886001",
-                            "display": "Alzheimer's disease" if self.detection.predicted_class == 'alzheimers' else "Normal cognition"
+                            "code": "26929004" if self.detection.predicted_class in ['alzheimers', 'dementia'] else "17886001",
+                            "display": "Alzheimer's disease/Dementia" if self.detection.predicted_class in ['alzheimers', 'dementia'] else "Normal cognition"
                         }
                     ],
                     "text": self.detection.get_predicted_class_display() if self.detection.predicted_class else "Pending"
@@ -442,4 +454,56 @@ class ModelMetadata(models.Model):
 
     def __str__(self):
         return f"{self.name} v{self.version}"
+
+
+class DoctorReview(models.Model):
+    """Doctor's clinical review and patient-facing report for a detection result"""
+
+    detection = models.OneToOneField(
+        DetectionResult, on_delete=models.CASCADE, related_name='doctor_review'
+    )
+    doctor = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='authored_reviews'
+    )
+    patient = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='received_reviews'
+    )
+
+    # Doctor's clinical assessment
+    ai_accepted = models.BooleanField(default=True)
+    doctor_override_class = models.CharField(
+        max_length=50, blank=True, default='',
+        help_text="If AI is overridden, the doctor-selected diagnosis class"
+    )
+    doctor_conclusion = models.TextField(
+        help_text="Doctor's own clinical conclusion (visible to patient when sent)"
+    )
+    doctor_notes = models.TextField(
+        blank=True,
+        help_text="Internal notes visible only to the doctor — NOT sent to the patient"
+    )
+
+    # Patient-facing summary — simple, human, non-technical
+    patient_summary = models.TextField(
+        help_text="Plain-language message the patient will see"
+    )
+
+    # Send control
+    is_sent_to_patient = models.BooleanField(default=False)
+    sent_at = models.DateTimeField(null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['patient', '-created_at']),
+            models.Index(fields=['doctor', '-created_at']),
+            models.Index(fields=['is_sent_to_patient']),
+        ]
+
+    def __str__(self):
+        status = "Sent" if self.is_sent_to_patient else "Draft"
+        return f"Review for {self.detection.detection_id} ({status})"
 

@@ -77,9 +77,12 @@ Google Sign-In is integrated but requires configuration. Follow these steps to e
 7. Add authorized JavaScript origins:
    - `http://localhost:3000`
    - `http://127.0.0.1:3000`
-8. Add authorized redirect URIs (not required for Google Identity Services, but good to have):
-   - `http://localhost:3000`
-   - `http://127.0.0.1:3000`
+8. Under **Authorized redirect URIs**, add entries that match how you run the app:
+   - Same host you use in the browser, e.g. `http://localhost:3000` **and** `http://127.0.0.1:3000` if you switch between them.
+   - If you use **NextAuth** in this repo (`/api/auth/[...nextauth]`), also add:
+     - `http://localhost:3000/api/auth/callback/google`
+     - `http://127.0.0.1:3000/api/auth/callback/google`
+     - Plus your production callback URL when you deploy.
 9. Click **Create** and copy your **Client ID** and **Client Secret**
 
 ### Configure Backend (Django)
@@ -143,11 +146,9 @@ EOF
 ### Test Google Login
 
 1. Start both backend and frontend servers
-2. Navigate to http://localhost:3000/login
-3. Select Patient or Doctor role
-4. Click "Sign in with Google"
-5. Complete Google authentication
-6. You'll be redirected to the appropriate dashboard
+2. Open the app using the **same origin** you added in Google Console (e.g. `http://localhost:3000/login`, not `127.0.0.1`, unless that origin is also listed).
+3. Use the **Sign in with Google** button (Google-hosted widget on the login page).
+4. Complete Google authentication; you should land on the patient or doctor dashboard.
 
 **Note**: If Google OAuth is not configured, users can still use email/password authentication.
 
@@ -187,6 +188,14 @@ curl -s -X POST http://127.0.0.1:8000/api/auth/verify \
 ```
 
 ### Google OAuth Issues
+
+**Error 400: `redirect_uri_mismatch`**
+
+Google compares the **exact** redirect URL and **JavaScript origins** to your OAuth client settings.
+
+- Add **Authorized JavaScript origins** for every origin you use: `http://localhost:3000`, `http://127.0.0.1:3000`, and your production `https://` origin (scheme + host + port, no path).
+- If you sign in with **NextAuth** (`signIn('google')` or the NextAuth callback route), add the matching **Authorized redirect URIs** (see step 8 above). The login page uses **Google Identity Services** (JWT) and normally only needs correct **JavaScript origins**; older OAuth token flows required extra redirect URIs.
+- After changing Google Console settings, wait a minute and hard-refresh the app.
 
 **"Google OAuth not configured" error:**
 - Ensure `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are set in backend environment

@@ -3,17 +3,17 @@ PostgreSQL Database Setup Script for DementiaNext
 Automatically creates database and verifies connection
 """
 
-import os
 import sys
+import os
 import psycopg2
 from psycopg2.extensions import ISOLATION_LEVEL_AUTOCOMMIT
 
 # Database configuration
-DB_NAME = 'dementianext_db'
-DB_USER = 'postgres'
-DB_PASSWORD = 'postgres'
-DB_HOST = 'localhost'
-DB_PORT = '5433'
+DB_NAME = os.getenv("DB_NAME", "dementianext_db")
+DB_USER = os.getenv("DB_USER", "postgres")
+DB_PASSWORD = os.getenv("DB_PASSWORD", "postgres")
+DB_HOST = os.getenv("DB_HOST", "localhost")
+DB_PORT = os.getenv("DB_PORT", "5432")
 
 def create_database():
     """Create PostgreSQL database for DementiaNext"""
@@ -96,7 +96,7 @@ def create_database():
         print("\nPossible solutions:")
         print("  1. Make sure PostgreSQL is installed")
         print("  2. Check if PostgreSQL service is running:")
-        print("     Get-Service postgresql*")
+        print("     sudo systemctl status postgresql")
         print("  3. Verify connection details in .env file")
         print("  4. Check if password is correct (default: 'postgres')")
         return False

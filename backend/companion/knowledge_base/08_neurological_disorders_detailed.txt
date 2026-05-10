@@ -1,0 +1,106 @@
+NEUROLOGICAL DISORDERS AND DEMENTIA: DETAILED CLINICAL REFERENCE
+Source: National Institute of Neurological Disorders and Stroke (NINDS), Lancet Neurology, Alzheimer's Association Clinical Practice Guidelines
+
+ALZHEIMER'S DISEASE — PATHOPHYSIOLOGY
+Alzheimer's disease is the most common cause of dementia, accounting for 60-80% of all cases. It is a progressive neurodegenerative disorder characterized by two hallmark pathological features: amyloid-beta plaques and neurofibrillary tau tangles.
+
+Amyloid Cascade Hypothesis: abnormal processing of amyloid precursor protein (APP) leads to accumulation of amyloid-beta 42 (Aβ42) peptides. These aggregate into insoluble plaques in the extracellular space of the brain. Plaques disrupt cell-to-cell communication and activate immune cells (microglia), triggering chronic inflammation that damages neurons.
+
+Tau Pathology: in healthy neurons, tau protein stabilizes microtubules that transport nutrients within cells. In Alzheimer's, tau becomes hyperphosphorylated and detaches from microtubules, forming twisted tangles inside neurons. This disrupts the transport system, leading to cell death. Tau pathology correlates more strongly with cognitive decline than amyloid burden.
+
+Hippocampal Atrophy: the hippocampus — the brain's memory center — is one of the first regions affected. This explains why short-term memory loss is typically the earliest symptom. On MRI, hippocampal volume loss is a key diagnostic marker. As the disease progresses, atrophy spreads to the temporal, parietal, and frontal lobes.
+
+Cholinergic Deficit: there is a significant loss of acetylcholine-producing neurons in the basal nucleus of Meynert. This cholinergic deficit underlies the rationale for cholinesterase inhibitor medications (donepezil, rivastigmine, galantamine).
+
+Biomarkers: cerebrospinal fluid (CSF) testing can detect decreased Aβ42 and increased phospho-tau levels. PET imaging can visualize amyloid plaques (amyloid PET) and tau tangles (tau PET). These biomarkers can be positive 15-20 years before clinical symptoms appear.
+
+Risk Factors: age is the greatest risk factor. APOE ε4 allele increases risk 3-12 fold. Other risk factors include family history, cardiovascular disease, diabetes, traumatic brain injury, low educational attainment, social isolation, hearing loss, and depression.
+
+VASCULAR DEMENTIA — SUBTYPES AND MECHANISMS
+Vascular dementia is the second most common type, caused by reduced blood flow to the brain. It encompasses several subtypes:
+
+Multi-Infarct Dementia: caused by multiple small strokes (infarcts) in different brain regions. Each stroke may go unnoticed (silent stroke), but cumulative damage causes progressive cognitive decline. Progression is often described as "stepwise" — sudden decline after each stroke followed by a plateau.
+
+Subcortical Ischemic Vascular Dementia: caused by chronic small vessel disease affecting deep white matter. Leads to damage of subcortical circuits. Key symptoms include slowed processing speed, impaired executive function (planning, organizing, multitasking), gait disturbance, urinary urgency, and mood changes. Memory may be relatively preserved compared to Alzheimer's.
+
+Strategic Single-Infarct Dementia: a single stroke in a critical brain region (thalamus, angular gyrus, hippocampus, caudate nucleus) can cause dementia-like symptoms. The cognitive profile depends entirely on the location of the stroke.
+
+Post-Stroke Dementia: about one-third of stroke survivors develop dementia within the first year after stroke. Risk factors include prior cognitive impairment, recurrent strokes, large stroke volume, and strokes in the left hemisphere.
+
+Cerebral Amyloid Angiopathy: amyloid deposits build up in the walls of brain blood vessels, making them fragile and prone to bleeding. Can cause lobar microbleeds visible on MRI. Overlaps significantly with Alzheimer's disease.
+
+Key Differences from Alzheimer's: executive function is often impaired earlier than memory. Gait disturbances and urinary symptoms are common. Emotional lability (sudden, uncontrollable crying or laughing) may occur. Progression depends on stroke recurrence — control of cardiovascular risk factors (hypertension, diabetes, atrial fibrillation) can slow progression.
+
+LEWY BODY DEMENTIA (DLB) — CLINICAL DETAILS
+Lewy body dementia is caused by abnormal deposits of alpha-synuclein protein (Lewy bodies) in neurons throughout the cortex and brainstem. It shares pathological features with both Alzheimer's and Parkinson's disease.
+
+Core Clinical Features:
+1. Fluctuating Cognition: dramatic variations in attention and alertness, sometimes within the same day. The person may appear near-normal one hour and severely confused the next. Caregivers describe "good days and bad days" — this fluctuation is a hallmark that distinguishes DLB from Alzheimer's.
+2. Recurrent Visual Hallucinations: typically well-formed, detailed, and often involve people, animals, or children. The person may see deceased relatives, strangers, or animals in the house. These hallucinations are usually not distressing in early stages. This is a distinguishing feature not typically seen in early Alzheimer's.
+3. REM Sleep Behavior Disorder (RBD): the person physically acts out vivid dreams — punching, kicking, shouting during sleep. This can precede cognitive symptoms by years or decades. RBD is present in up to 80% of DLB patients.
+4. Parkinsonism: motor symptoms similar to Parkinson's disease — tremor (often less prominent than in Parkinson's), rigidity, slowed movement (bradykinesia), shuffling gait, masked facial expression. Falls are common.
+
+CRITICAL MEDICATION WARNING: People with DLB have extreme sensitivity to antipsychotic medications (neuroleptic sensitivity). Traditional antipsychotics (haloperidol, chlorpromazine) and even some atypical antipsychotics (risperidone, olanzapine) can cause severe, life-threatening reactions including extreme rigidity, high fever (neuroleptic malignant syndrome), severe worsening of motor and cognitive function, and even death. If antipsychotics are absolutely necessary, only low-dose quetiapine or pimavanserin should be considered, and only under close neurological supervision. This drug sensitivity is so important that it should be flagged in every medical interaction.
+
+Autonomic Dysfunction: orthostatic hypotension (dizziness when standing), constipation, urinary incontinence, temperature dysregulation, excessive sweating. These can be severe and are often undertreated.
+
+Diagnostic Criteria (2017 DLB Consortium): probable DLB requires dementia plus two or more core features, or dementia plus one core feature and one or more indicative biomarker (reduced dopamine transporter uptake on SPECT/PET, polysomnographic confirmation of RBD, reduced iodine-123-MIBG myocardial scintigraphy uptake).
+
+FRONTOTEMPORAL DEMENTIA (FTD) — IN DEPTH
+FTD is a group of disorders caused by progressive degeneration of the frontal and temporal lobes. It is the most common cause of dementia in people under 60. Average age of onset is 45-65 years.
+
+Behavioral Variant FTD (bvFTD):
+Core symptoms: dramatic personality changes, loss of empathy, disinhibition (socially inappropriate behavior, impulsive actions, spending sprees), apathy and loss of motivation, compulsive or ritualistic behaviors (hoarding, repetitive routines), dietary changes (craving sweets, eating inedible objects), lack of insight — the person is unaware of their behavioral changes.
+This variant is often initially misdiagnosed as a psychiatric disorder (depression, bipolar disorder, obsessive-compulsive disorder) because memory is relatively preserved early on.
+
+Primary Progressive Aphasia (PPA) — Language Variants:
+Semantic Variant PPA: progressive loss of word meaning. The person speaks fluently but uses vague words ("thing," "stuff"). They lose the ability to recognize familiar objects and faces. Reading and writing are affected. Eventually affects behavior and knowledge of social norms.
+Nonfluent/Agrammatic Variant PPA: progressive difficulty producing speech — effortful, halting, grammatically simplified speech. May eventually become mute. Motor speech planning (apraxia of speech) is often present.
+Logopenic Variant PPA: difficulty finding words in spontaneous speech, frequent pauses, impaired repetition of sentences. This variant is more often associated with underlying Alzheimer's pathology.
+
+Genetics: FTD has a stronger genetic component than Alzheimer's. About 30-50% of bvFTD cases have a family history. Key genes include MAPT (tau), GRN (progranulin), and C9orf72 (hexanucleotide repeat expansion — also linked to ALS/motor neuron disease).
+
+FTD-ALS Overlap: some patients develop both FTD and amyotrophic lateral sclerosis (ALS/motor neuron disease). The C9orf72 mutation is found in both conditions. Motor symptoms include muscle weakness, fasciculations, difficulty swallowing, and respiratory compromise.
+
+PARKINSON'S DISEASE DEMENTIA (PDD)
+Parkinson's disease dementia develops in approximately 75-80% of Parkinson's patients when followed for 10 or more years. It is distinguished from Lewy body dementia by the "one-year rule": if motor symptoms precede cognitive symptoms by more than one year, the diagnosis is PDD; if cognitive symptoms occur within one year of motor symptoms (or before them), the diagnosis is DLB.
+
+Cognitive Profile: impaired attention and executive function are the earliest cognitive changes. Visuospatial deficits are prominent. Memory retrieval is impaired (benefit from cues, unlike Alzheimer's where encoding is impaired). Fluctuating attention is common.
+
+Dopamine Pathway: loss of dopamine-producing neurons in the substantia nigra causes the motor symptoms. The cholinergic deficit in the basal forebrain contributes to cognitive decline. Rivastigmine is the only cholinesterase inhibitor specifically approved for PDD.
+
+Hallucinations: visual hallucinations are common and may be worsened by dopaminergic medications used to treat motor symptoms. This creates a treatment dilemma — reducing Parkinson's medications improves hallucinations but worsens motor function. Pimavanserin is an antipsychotic specifically developed for Parkinson's psychosis.
+
+NORMAL PRESSURE HYDROCEPHALUS (NPH)
+NPH is one of the few potentially reversible causes of dementia. It is caused by excessive cerebrospinal fluid accumulation in the brain's ventricles without increased intracranial pressure.
+
+Classic Triad (Hakim Triad):
+1. Gait disturbance: magnetic gait — shuffling, wide-based, feet appear stuck to the floor. This is typically the earliest and most prominent symptom.
+2. Urinary incontinence: urgency progressing to frank incontinence.
+3. Dementia: primarily affects attention, processing speed, and executive function. Memory may be less affected than in Alzheimer's.
+
+Diagnosis: MRI shows ventriculomegaly (enlarged ventricles) out of proportion to cortical atrophy. Lumbar puncture with removal of 30-50 mL CSF — if gait improves within hours, this suggests NPH.
+Treatment: ventriculoperitoneal (VP) shunt placement can significantly improve symptoms in 60-80% of patients. Earlier intervention yields better outcomes.
+
+CREUTZFELDT-JAKOB DISEASE (CJD)
+CJD is a rare, rapidly progressive, and universally fatal prion disease. Caused by misfolded prion proteins (PrPSc) that induce normal brain proteins to misfold, creating a chain reaction of neuronal destruction.
+
+Forms: sporadic CJD (85% of cases, no known cause), familial CJD (genetic mutations in PRNP gene), acquired CJD (variant CJD from contaminated beef, iatrogenic CJD from contaminated surgical instruments or growth hormone).
+
+Clinical Course: rapid onset of dementia progressing over weeks to months (unlike years in Alzheimer's). Myoclonus (sudden involuntary muscle jerks), visual disturbances, cerebellar ataxia (coordination problems), psychiatric symptoms. Progression to akinetic mutism and death typically within 6-12 months.
+
+Diagnosis: EEG shows characteristic periodic sharp wave complexes. MRI shows cortical ribboning and basal ganglia hyperintensity on DWI/FLAIR. CSF biomarkers include 14-3-3 protein and RT-QuIC assay. Brain biopsy is definitive but rarely performed.
+
+HUNTINGTON'S DISEASE
+Huntington's disease is an autosomal dominant genetic disorder caused by CAG trinucleotide repeat expansion in the huntingtin (HTT) gene on chromosome 4. A repeat length of 40 or more is fully penetrant.
+
+Triad of Features:
+1. Movement disorder: chorea (involuntary, irregular movements), dystonia, impaired voluntary movements, gait instability.
+2. Cognitive decline: executive dysfunction, slowed processing, impaired planning. Progresses to dementia. Memory retrieval is impaired but recognition memory is relatively preserved.
+3. Psychiatric symptoms: depression (prevalent in 40%), irritability, anxiety, apathy, obsessive-compulsive behaviors. Psychiatric symptoms can precede motor symptoms by years.
+
+Genetic Testing: predictive genetic testing is available for at-risk individuals (those with an affected parent have a 50% chance). Genetic counseling is essential before testing.
+
+Onset: typically between ages 30-50. Juvenile onset (before age 20) tends to have a more severe and rapid course.
+
+Treatment: tetrabenazine and deutetrabenazine for chorea management. SSRIs for depression. No disease-modifying therapy currently available.

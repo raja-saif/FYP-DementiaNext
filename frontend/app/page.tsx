@@ -115,7 +115,7 @@ function FeatureCard({ feature, isAuthenticated }: { feature: typeof features[0]
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault()
     if (!isAuthenticated) {
-      router.push('/signup')
+      router.push('/login')
     } else {
       router.push(feature.href)
     }
@@ -273,17 +273,17 @@ export default function HomePage() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <Link href="/signup">
+              <Link href="/classification">
                 <Button className="text-xl px-12 py-8 bg-gradient-to-r from-blue-600 to-teal-600 hover:from-blue-700 hover:to-teal-700 shadow-2xl hover:shadow-3xl transition-all duration-300 transform hover:scale-105">
                   <Scan className="mr-3 w-6 h-6" />
-                  Start MRI Analysis
+                  Classification
                   <ChevronRight className="ml-2 w-6 h-6" />
                 </Button>
               </Link>
-              <Link href="/login">
+              <Link href="/detection">
                 <Button variant="outline" className="text-xl px-12 py-8 border-4 border-blue-600 text-blue-600 hover:bg-blue-50 shadow-xl hover:shadow-2xl transition-all duration-300">
                   <Shield className="mr-3 w-6 h-6" />
-                  Medical Portal Access
+                  Detection
                 </Button>
               </Link>
             </div>
@@ -298,30 +298,24 @@ export default function HomePage() {
             <h2 className="text-4xl font-bold text-gray-900 mb-4">Medical-Grade AI Performance</h2>
             <p className="text-xl text-gray-600">Trusted by healthcare professionals worldwide</p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8">
             <div className="text-center p-6 rounded-2xl bg-gradient-to-br from-blue-50 to-teal-50 shadow-lg hover:shadow-xl transition-all duration-300 border border-blue-200">
               <div className="text-5xl mb-3">🎯</div>
-              <div className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent mb-2">99.7%</div>
-              <div className="text-gray-700 font-semibold">MRI Accuracy</div>
-              <div className="text-sm text-gray-500 mt-2">FDA Validated</div>
+              <div className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent mb-2 leading-snug">Imaging-first analysis</div>
+              <div className="text-gray-700 font-semibold">MRI workflow</div>
+              <div className="text-sm text-gray-500 mt-2">Built for structured brain MRI review</div>
             </div>
             <div className="text-center p-6 rounded-2xl bg-gradient-to-br from-blue-50 to-teal-50 shadow-lg hover:shadow-xl transition-all duration-300 border border-blue-200">
               <div className="text-5xl mb-3">✨</div>
-              <div className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent mb-2">97.5%</div>
-              <div className="text-gray-700 font-semibold">Classification Precision</div>
-              <div className="text-sm text-gray-500 mt-2">Clinical Grade</div>
-            </div>
-            <div className="text-center p-6 rounded-2xl bg-gradient-to-br from-blue-50 to-teal-50 shadow-lg hover:shadow-xl transition-all duration-300 border border-blue-200">
-              <div className="text-5xl mb-3">👥</div>
-              <div className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent mb-2">10K+</div>
-              <div className="text-gray-700 font-semibold">Patients Analyzed</div>
-              <div className="text-sm text-gray-500 mt-2">Global Reach</div>
+              <div className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent mb-2 leading-snug">Clear, explainable output</div>
+              <div className="text-gray-700 font-semibold">Classification</div>
+              <div className="text-sm text-gray-500 mt-2">Dementia subtypes and clinical context</div>
             </div>
             <div className="text-center p-6 rounded-2xl bg-gradient-to-br from-blue-50 to-teal-50 shadow-lg hover:shadow-xl transition-all duration-300 border border-blue-200">
               <div className="text-5xl mb-3">🤖</div>
-              <div className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent mb-2">24/7</div>
+              <div className="text-xl md:text-2xl font-bold bg-gradient-to-r from-blue-600 to-teal-600 bg-clip-text text-transparent mb-2 leading-snug">Always-on assistance</div>
               <div className="text-gray-700 font-semibold">AI Support</div>
-              <div className="text-sm text-gray-500 mt-2">Always Available</div>
+              <div className="text-sm text-gray-500 mt-2">Companion and clinician-facing tools</div>
             </div>
           </div>
         </div>
@@ -439,17 +433,17 @@ export default function HomePage() {
               Join healthcare professionals worldwide using DementiaNext for accurate neurological diagnosis
             </p>
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <Link href="/signup">
+              <Link href="/classification">
                 <Button className="text-xl px-12 py-8 bg-white text-blue-600 hover:bg-gray-100 shadow-2xl font-bold hover:shadow-3xl transition-all duration-300 transform hover:scale-105">
                   <Scan className="mr-3 w-6 h-6" />
-                  Start MRI Analysis
+                  Classification
                   <Sparkles className="ml-2 w-6 h-6" />
                 </Button>
               </Link>
-              <Link href="/login">
+              <Link href="/detection">
                 <Button className="text-xl px-12 py-8 bg-white/10 text-white border-4 border-white hover:bg-white hover:text-blue-600 shadow-2xl font-bold backdrop-blur hover:shadow-3xl transition-all duration-300">
                   <Shield className="mr-3 w-6 h-6" />
-                  Medical Portal Access
+                  Detection
                 </Button>
               </Link>
             </div>

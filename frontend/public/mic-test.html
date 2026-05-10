@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Microphone Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            margin: 10px 5px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .btn-primary {
+            background: #667eea;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102,126,234,0.4);
+        }
+        .btn-danger {
+            background: #f56565;
+            color: white;
+        }
+        .btn-danger:hover {
+            background: #e53e3e;
+        }
+        .status {
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        .success {
+            background: #c6f6d5;
+            color: #2f855a;
+            border: 2px solid #48bb78;
+        }
+        .error {
+            background: #fed7d7;
+            color: #c53030;
+            border: 2px solid #fc8181;
+        }
+        .info {
+            background: #bee3f8;
+            color: #2c5282;
+            border: 2px solid #4299e1;
+        }
+        #waveform {
+            width: 100%;
+            height: 100px;
+            background: #f7fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .device-list {
+            background: #f7fafc;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .device-item {
+            padding: 8px;
+            margin: 5px 0;
+            background: white;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+        }
+        audio {
+            width: 100%;
+            margin: 15px 0;
+        }
+        h1 {
+            color: #2d3748;
+            margin-bottom: 10px;
+        }
+        h3 {
+            color: #4a5568;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎤 Microphone System Test</h1>
+        <p>Test if your browser can access the microphone</p>
+
+        <div id="status" class="status info">Click "Test Microphone" to begin</div>
+
+        <div>
+            <button onclick="testMicrophone()" class="btn-primary">🎤 Test Microphone</button>
+            <button onclick="startRecording()" class="btn-primary" id="recordBtn">🔴 Start Recording</button>
+            <button onclick="stopRecording()" class="btn-danger" id="stopBtn" style="display:none;">⏹️ Stop Recording</button>
+        </div>
+
+        <canvas id="waveform"></canvas>
+        
+        <audio id="playback" controls style="display:none;"></audio>
+
+        <div id="devices" class="device-list" style="display:none;">
+            <h3>Available Audio Devices:</h3>
+            <div id="deviceList"></div>
+        </div>
+
+        <div id="details" style="display:none; margin-top: 20px; font-size: 14px; color: #718096;"></div>
+    </div>
+
+    <script>
+        let mediaStream = null;
+        let mediaRecorder = null;
+        let audioChunks = [];
+        let audioContext = null;
+        let analyser = null;
+        let animationId = null;
+
+        async function testMicrophone() {
+            const status = document.getElementById('status');
+            const details = document.getElementById('details');
+            const devicesDiv = document.getElementById('devices');
+            const deviceList = document.getElementById('deviceList');
+
+            status.className = 'status info';
+            status.textContent = '⏳ Testing microphone access...';
+            details.style.display = 'none';
+
+            try {
+                // Check if getUserMedia is supported
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    throw new Error('getUserMedia is not supported in this browser');
+                }
+
+                // Check for existing media usage
+                const existingDevices = await navigator.mediaDevices.enumerateDevices();
+                const audioInputs = existingDevices.filter(d => d.kind === 'audioinput');
+                
+                if (audioInputs.length === 0) {
+                    throw Object.assign(new Error('No audio input devices detected'), { name: 'NoDevicesError' });
+                }
+
+                // Request microphone access
+                const stream = await navigator.mediaDevices.getUserMedia({ 
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true
+                    } 
+                });
+
+                mediaStream = stream;
+
+                // Success!
+                status.className = 'status success';
+                status.textContent = '✅ Microphone access granted! Recording capabilities enabled.';
+
+                // Show audio devices
+                const devices = await navigator.mediaDevices.enumerateDevices();
+                const audioInputs = devices.filter(device => device.kind === 'audioinput');
+                
+                deviceList.innerHTML = '';
+                audioInputs.forEach(device => {
+                    const div = document.createElement('div');
+                    div.className = 'device-item';
+                    div.textContent = `🎤 ${device.label || 'Microphone ' + device.deviceId.slice(0, 8)}`;
+                    deviceList.appendChild(div);
+                });
+                devicesDiv.style.display = 'block';
+
+                // Show technical details
+                const tracks = stream.getAudioTracks();
+                details.style.display = 'block';
+                details.innerHTML = `
+                    <strong>Technical Details:</strong><br>
+                    Active tracks: ${tracks.length}<br>
+                    Track label: ${tracks[0].label}<br>
+                    Track state: ${tracks[0].readyState}<br>
+                    Constraints: ${JSON.stringify(tracks[0].getConstraints())}<br>
+                    Settings: ${JSON.stringify(tracks[0].getSettings())}
+                `;
+
+                // Setup visualizer
+                setupVisualizer(stream);
+
+            } catch (error) {
+                status.className = 'status error';
+                let message = '❌ Microphone test failed!\n\n';
+                
+                if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError' || error.name === 'NoDevicesError') {
+                    message += '🔍 No microphone found\n\n';
+                    message += '**COMMON CAUSE:** Microphone is being used by another tab!\n\n';
+                    message += 'Solutions:\n';
+                    message += '• Close Google Meet, Zoom, or other video calls\n';
+                    message += '• Check other browser tabs using the microphone\n';
+                    message += '• Look for a red dot on tabs using the camera/mic\n';
+                    message += '• Try in a different browser or incognito mode\n';
+                    message += '• Restart your browser completely';
+                } else if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
+                    message += '🚫 Permission denied\n\n';
+                    message += 'Solutions:\n';
+                    message += '• Click the 🔒 lock icon in the address bar\n';
+                    message += '• Change microphone permission to "Allow"\n';
+                    message += '• Reload the page and try again';
+                } else if (error.name === 'NotReadableError') {
+                    message += '🔒 Microphone is in use by another application\n\n';
+                    message += 'Solutions:\n';
+                    message += '• Close other apps using the microphone\n';
+                    message += '• Check for Zoom, Skype, Discord, Google Meet\n';
+                    message += '• Close other browser tabs with video calls\n';
+                    message += '• Restart your browser';
+                } else {
+                    message += `Error: ${error.name}\n`;
+                    message += `Message: ${error.message}`;
+                }
+                
+                status.textContent = message;
+
+                details.style.display = 'block';
+                details.innerHTML = `<strong style="color: #c53030;">Error Details:</strong><br>
+                    Name: ${error.name}<br>
+                    Message: ${error.message}<br>
+                    Stack: ${error.stack ? error.stack.split('\n')[0] : 'N/A'}`;
+            }
+        }
+
+        function setupVisualizer(stream) {
+            const canvas = document.getElementById('waveform');
+            const canvasCtx = canvas.getContext('2d');
+            canvas.width = canvas.offsetWidth;
+            canvas.height = 100;
+
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            analyser = audioContext.createAnalyser();
+            const source = audioContext.createMediaStreamSource(stream);
+            source.connect(analyser);
+            analyser.fftSize = 2048;
+
+            const bufferLength = analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+
+            function draw() {
+                animationId = requestAnimationFrame(draw);
+                analyser.getByteTimeDomainData(dataArray);
+
+                canvasCtx.fillStyle = '#f7fafc';
+                canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+
+                canvasCtx.lineWidth = 2;
+                canvasCtx.strokeStyle = '#667eea';
+                canvasCtx.beginPath();
+
+                const sliceWidth = canvas.width / bufferLength;
+                let x = 0;
+
+                for (let i = 0; i < bufferLength; i++) {
+                    const v = dataArray[i] / 128.0;
+                    const y = v * canvas.height / 2;
+
+                    if (i === 0) {
+                        canvasCtx.moveTo(x, y);
+                    } else {
+                        canvasCtx.lineTo(x, y);
+                    }
+
+                    x += sliceWidth;
+                }
+
+                canvasCtx.lineTo(canvas.width, canvas.height / 2);
+                canvasCtx.stroke();
+            }
+
+            draw();
+        }
+
+        async function startRecording() {
+            if (!mediaStream) {
+                alert('Please test microphone first!');
+                return;
+            }
+
+            audioChunks = [];
+            mediaRecorder = new MediaRecorder(mediaStream);
+
+            mediaRecorder.ondataavailable = (event) => {
+                audioChunks.push(event.data);
+            };
+
+            mediaRecorder.onstop = () => {
+                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                const audioUrl = URL.createObjectURL(audioBlob);
+                const playback = document.getElementById('playback');
+                playback.src = audioUrl;
+                playback.style.display = 'block';
+            };
+
+            mediaRecorder.start();
+            document.getElementById('recordBtn').style.display = 'none';
+            document.getElementById('stopBtn').style.display = 'inline-block';
+            
+            const status = document.getElementById('status');
+            status.className = 'status error';
+            status.textContent = '🔴 Recording... Speak into your microphone!';
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+                document.getElementById('recordBtn').style.display = 'inline-block';
+                document.getElementById('stopBtn').style.display = 'none';
+                
+                const status = document.getElementById('status');
+                status.className = 'status success';
+                status.textContent = '✅ Recording stopped! Play it back below.';
+            }
+        }
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (mediaStream) {
+                mediaStream.getTracks().forEach(track => track.stop());
+            }
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
+            if (audioContext) {
+                audioContext.close();
+            }
+        });
+    </script>
+</body>
+</html>

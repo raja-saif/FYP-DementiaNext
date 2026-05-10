@@ -1,0 +1,122 @@
+BEHAVIORAL AND PSYCHOLOGICAL SYMPTOMS OF DEMENTIA (BPSD): MANAGEMENT PROTOCOLS
+Source: National Institute on Aging, BMJ Clinical Guidelines, APA Practice Guidelines
+
+OVERVIEW
+Nearly all people with dementia will experience behavioral and psychological symptoms during their illness. These include agitation, aggression, wandering, sundowning, sleep disturbances, repetitive behaviors, refusal of care, paranoia, hallucinations, and depression. These symptoms are among the most distressing aspects of dementia care for both patients and caregivers.
+
+Non-pharmacological interventions should always be tried first. The underlying cause of behavior should be identified before attempting management — common causes include pain, infection (especially urinary tract infections), constipation, medication side effects, overstimulation, unmet needs (hunger, thirst, need to use toilet), and environmental triggers.
+
+SUNDOWNING
+Definition: increased confusion, agitation, anxiety, and behavioral disturbance that occurs in the late afternoon and evening hours. Affects 20-66% of people with dementia.
+Cause: not fully understood but linked to disruption of the circadian rhythm, fatigue accumulated throughout the day, decreased lighting creating shadows and visual confusion, and difficulty separating dreams from reality.
+Management protocol:
+1. Maintain a consistent daily routine with the most demanding activities scheduled in the morning when cognitive function is best.
+2. Ensure exposure to bright natural light during the day — open curtains, go outside when possible. This helps regulate the circadian rhythm.
+3. Begin a transition period at 3-4 PM: offer a light protein snack (cheese, nuts, yogurt — blood sugar drops can worsen sundowning), reduce stimulation, switch to calming activities.
+4. As natural light fades, turn on indoor lights before it gets dark — sudden darkness or long shadows can trigger confusion and fear.
+5. Use full-spectrum bulbs that mimic natural daylight. Avoid harsh fluorescent lighting.
+6. Reduce noise and activity in the evening. Avoid television programs that are loud, violent, or confusing.
+7. Play calming, familiar music from the patient's earlier years.
+8. Limit caffeine and sugar after noon.
+9. Do NOT argue with, restrain, or try to reason with a person experiencing sundowning. Redirect and soothe instead.
+10. If sundowning is severe and consistent, consult the doctor — underlying pain, medication timing, or infection may be contributing.
+
+AGITATION AND AGGRESSION
+Common triggers: pain (especially dental pain or constipation — patients may not be able to articulate pain), being rushed, feeling overwhelmed by too many people or too much noise, being asked to do something beyond their ability, loss of control and autonomy, medication side effects, feeling lost or confused about surroundings.
+Management protocol:
+1. Stay calm. Your emotional state directly affects the patient. Speak slowly, softly, and reassuringly.
+2. Do not argue, confront, or restrain. Step back if there is risk of physical harm.
+3. Try to identify the trigger. Ask simple questions: "Are you in pain?" "Are you hungry?" "Do you need the bathroom?"
+4. Redirect attention. Offer a snack, suggest a walk, play music, look at photos together, suggest a simple activity like folding towels.
+5. Reduce environmental stimulation — turn off TV, reduce lighting, remove extra people from the room.
+6. If the person is physically aggressive, maintain a safe distance. Do not corner them. Give them space and try again in a few minutes.
+7. Document the time, trigger, and what helped. Patterns will emerge that help prevent future episodes.
+8. If aggression is frequent or severe, consult the doctor to rule out pain, infection, or medication issues.
+
+WANDERING
+Affects up to 60% of dementia patients at some point.
+Causes: restlessness, boredom, searching for something or someone from the past, trying to fulfill a former routine (going to work), disorientation, side effect of medications.
+Safety measures: install door alarms or chimes, use childproof covers on doorknobs, consider GPS tracking devices or ID bracelets with name and phone number, register with local wandering response programs, ensure the person carries identification at all times, keep recent photos available in case of a search, secure pools, stairways, and exits.
+Management: address the underlying need — if they want to "go to work," engage them in a purposeful activity. Provide safe spaces for walking. A fenced yard or walking path helps satisfy the need to move without risk.
+
+REPETITIVE QUESTIONS AND BEHAVIORS
+Why it happens: the short-term memory loop is broken. The person genuinely does not remember asking the question moments ago. They are not doing it to annoy the caregiver. The question often reflects an underlying anxiety or unmet need — "When is lunch?" may mean "I'm hungry" or "I'm anxious about what's happening next."
+Management protocol:
+1. Answer patiently and consistently every time, using the same words. Familiar phrasing provides comfort.
+2. Try to identify the emotion behind the question. "When are we going home?" may mean "I feel unsafe."
+3. Post written answers to common questions in visible locations: a whiteboard with "Lunch is at 12:00" or "Sarah will visit on Tuesday."
+4. Redirect to an activity after answering: "Lunch is at noon. Would you like to help me set the table?"
+5. Use a reassuring touch (holding hands, gentle pat on the back) while answering — physical comfort helps.
+6. Never say "I already told you," "don't you remember?" or show frustration. This increases anxiety and worsens the behavior.
+
+REFUSAL TO EAT
+Causes: difficulty recognizing food, forgetting how to use utensils, dental pain, ill-fitting dentures, medication side effects (nausea, altered taste), depression, difficulty swallowing (dysphagia), sensory changes (food may look or smell different to them).
+Management protocol:
+1. Offer finger foods that are easy to pick up and eat without utensils: sandwiches cut into strips, cheese cubes, fruit slices, chicken strips.
+2. Serve one food at a time on a plain plate — patterned plates can be visually confusing.
+3. Use contrasting colors between plate and food (white rice on a blue plate is easier to see than on a white plate).
+4. Offer familiar, favorite foods from their past.
+5. Eat together — social eating encourages participation.
+6. Allow plenty of time. Never rush meals.
+7. Offer frequent small meals and nutritious snacks throughout the day rather than three large meals.
+8. If swallowing is difficult, consult a speech therapist for a swallowing assessment. Pureed foods or thickened liquids may be needed.
+9. Monitor weight weekly. Unintentional weight loss should be reported to the doctor.
+
+REFUSAL TO BATHE
+Causes: the person may not recognize the bathroom or understand what bathing is, may fear the water or being undressed, may feel cold, may feel a loss of dignity and privacy, may have pain that makes movement difficult.
+Management protocol:
+1. Maintain the person's lifelong bathing habits as much as possible (morning shower vs. evening bath).
+2. Prepare everything in advance so the process is quick and smooth.
+3. Ensure the bathroom is warm before starting. Use warm towels.
+4. Offer a sponge bath as an alternative on difficult days.
+5. Use a handheld showerhead to give the person more control.
+6. Cover parts of the body not being washed to preserve dignity.
+7. Use distraction — play their favorite music, talk about pleasant topics during the bath.
+8. Break the task into simple, one-step instructions: "Let's roll up your sleeve" rather than "Let's get you cleaned up."
+9. Consider whether a full bath is truly necessary every day — a sponge bath of key areas may suffice.
+10. Never force bathing. If the person is very resistant, try again later.
+
+SLEEP DISTURBANCES
+Affects 25-50% of dementia patients and is one of the primary reasons for caregiver burnout and institutional placement.
+Causes: damage to the brain's internal clock (suprachiasmatic nucleus), medication effects, daytime napping, pain, need to urinate, depression, reduced physical activity.
+Management protocol:
+1. Maximize exposure to bright light during the day, especially morning sunlight.
+2. Encourage physical activity during the day but not within 3 hours of bedtime.
+3. Maintain a consistent sleep-wake schedule, even on weekends.
+4. Limit daytime naps to 30 minutes maximum, and only before 2 PM.
+5. Avoid caffeine after noon and limit fluid intake in the evening to reduce nighttime bathroom trips.
+6. Create a calming bedtime routine: warm bath or sponge bath, warm milk, soft music, dimmed lights.
+7. Keep the bedroom dark, quiet, and comfortable. Use night lights in hallways and bathroom for safe navigation.
+8. If the person wakes at night, avoid turning on bright lights. Use a calm, quiet voice. Do not engage in stimulating conversation.
+9. Melatonin may help some patients — consult the doctor before using.
+10. If sleep problems are severe, consult the doctor to rule out sleep apnea, restless leg syndrome, or medication-related causes.
+
+HALLUCINATIONS AND DELUSIONS
+Hallucinations (seeing, hearing, or feeling things that are not there) are more common in Lewy body dementia but can occur in all types.
+Delusions (false beliefs, often paranoid — believing someone is stealing from them, a spouse is unfaithful, or that strangers are in the house) are common in moderate-stage Alzheimer's.
+Management protocol:
+1. Do not argue with or try to convince the person that what they see or believe is not real. This increases distress.
+2. Acknowledge their experience: "That must be frightening. I'm here with you."
+3. Redirect attention: "Let's go to the kitchen and have some tea."
+4. Check for environmental triggers — shadows, reflections in mirrors or windows, television shows that feel real to them.
+5. Remove mirrors if they cause distress (the person may not recognize their own reflection).
+6. Cover or remove items that may trigger paranoia (if they accuse someone of stealing, help them find the "missing" item).
+7. Ensure adequate lighting to reduce shadow-based visual confusion.
+8. If hallucinations are distressing or lead to dangerous behavior, consult the doctor. Note that antipsychotics are dangerous in Lewy body dementia and should be used with extreme caution in all dementia types.
+
+DEPRESSION AND APATHY
+Depression affects approximately 40% of people with Alzheimer's disease and is even more common in vascular dementia and Lewy body dementia.
+Apathy (loss of motivation, interest, and initiative) is the most common behavioral symptom, affecting up to 70% of dementia patients. It is distinct from depression — a person can be apathetic without being sad.
+Management protocol for depression:
+1. Maintain social connections — isolation worsens depression significantly.
+2. Encourage physical activity appropriate to their ability level.
+3. Ensure they are exposed to natural light daily.
+4. Engage them in activities that give a sense of purpose: simple household tasks, gardening, caring for a pet.
+5. Music therapy is particularly effective for depression in dementia patients.
+6. If depression is persistent, consult the doctor. SSRIs (sertraline, citalopram) are generally safe in dementia patients. Avoid tricyclic antidepressants due to anticholinergic effects.
+Management protocol for apathy:
+1. Do not wait for the person to initiate activities — gently structure their day.
+2. Offer activities you know they enjoyed in the past, simplified to their current ability.
+3. Break tasks into small steps and provide prompting for each step.
+4. Physical activity helps even when the person resists initially.
+5. Avoid overwhelming them with choices — offer one activity at a time.

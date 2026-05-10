@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
@@ -38,7 +38,10 @@ export default function LoginPage() {
   const [error, setError] = useState('')
   const [isGoogleReady, setIsGoogleReady] = useState(false)
   const router = useRouter()
-  const { login, user } = useAuth()
+  const { login, user, refreshUser } = useAuth()
+  const googleBtnRef = useRef<HTMLDivElement>(null)
+  const refreshUserRef = useRef(refreshUser)
+  refreshUserRef.current = refreshUser
 
   // Load Google Identity Services
   useEffect(() => {
@@ -85,85 +88,79 @@ export default function LoginPage() {
     setIsLoading(false)
   }
 
-  const handleGoogleLogin = () => {
-    if (!isGoogleReady || !window.google) {
-      setError('Google Sign-In is not loaded yet. Please try again.')
+  // Sign in with Google (JWT credential) — same flow as /signup. Avoids
+  // google.accounts.oauth2.initTokenClient, which triggers redirect_uri_mismatch
+  // unless extra OAuth redirect URIs are registered in Google Cloud Console.
+  useEffect(() => {
+    if (!isGoogleReady || !window.google || !googleBtnRef.current) {
       return
     }
-
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
     if (!clientId) {
-      setError('Google OAuth is not configured.')
       return
     }
 
-    setError('')
-    setIsLoading(true)
+    const el = googleBtnRef.current
+    el.innerHTML = ''
 
-    try {
-      const tokenClient = window.google.accounts.oauth2.initTokenClient({
-        client_id: clientId,
-        scope: 'email profile',
-        ux_mode: 'popup',
-        callback: async (tokenResponse: any) => {
-          if (tokenResponse.error) {
-            setError(`Google login failed: ${tokenResponse.error}`)
-            setIsLoading(false)
-            return
+    window.google.accounts.id.initialize({
+      client_id: clientId,
+      callback: async (response: { credential?: string }) => {
+        const credential = response.credential
+        if (!credential) {
+          setError('Google did not return a sign-in credential.')
+          return
+        }
+        setError('')
+        setIsLoading(true)
+        try {
+          const decoded = JSON.parse(atob(credential.split('.')[1])) as {
+            email?: string
+            name?: string
+            sub?: string
           }
-
-          try {
-            const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-              headers: {
-                Authorization: `Bearer ${tokenResponse.access_token}`,
-              },
-            })
-
-            if (!userInfoResponse.ok) {
-              throw new Error('Failed to get user info from Google')
-            }
-
-            const userInfo = await userInfoResponse.json()
-            const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000'
-            const response = await fetch(`${apiBase}/api/auth/google`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                email: userInfo.email,
-                name: userInfo.name,
-                google_id: userInfo.sub,
-                role: 'patient', // Default role for Google login
-              }),
-            })
-
-            const data = await response.json()
-
-            if (response.ok) {
-              localStorage.setItem('authToken', data.token)
-              if (data.user.role === 'patient') {
-                router.push('/patient-dashboard')
-              } else {
-                router.push('/doctor-dashboard')
-              }
-            } else {
-              setError(data.error || 'Google login failed')
-              setIsLoading(false)
-            }
-          } catch (err) {
-            setError('Failed to authenticate with Google. Please try again.')
-            setIsLoading(false)
+          const apiBase = (
+            process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000'
+          ).replace(/\/$/, '')
+          const res = await fetch(`${apiBase}/api/auth/google`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              email: decoded.email,
+              name: decoded.name,
+              google_id: decoded.sub,
+              role: 'patient',
+            }),
+          })
+          const data = await res.json()
+          if (res.ok && data.token) {
+            localStorage.setItem('authToken', data.token)
+            await refreshUserRef.current()
+          } else {
+            setError(data.error || 'Google login failed')
           }
-        },
-      })
+        } catch {
+          setError('Failed to authenticate with Google. Please try again.')
+        } finally {
+          setIsLoading(false)
+        }
+      },
+    })
 
-      tokenClient.requestAccessToken()
-    } catch (err) {
-      setError('Failed to initialize Google Sign-In.')
-      setIsLoading(false)
+    const width = Math.min(400, el.parentElement?.clientWidth || 400)
+    window.google.accounts.id.renderButton(el, {
+      type: 'standard',
+      theme: 'outline',
+      size: 'large',
+      text: 'signin_with',
+      shape: 'rectangular',
+      width,
+    })
+
+    return () => {
+      el.innerHTML = ''
     }
-  }
+  }, [isGoogleReady])
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-teal-50 relative overflow-hidden">
@@ -410,31 +407,23 @@ export default function LoginPage() {
                     </div>
                   </div>
 
-                  {/* Google Login Button */}
-                  <div>
-                    <Button
-                      type="button"
-                      onClick={handleGoogleLogin}
-                      disabled={isLoading || !isGoogleReady}
-                      className="w-full py-7 text-lg font-semibold bg-white hover:bg-gray-50 text-gray-900 border-2 border-gray-300 hover:border-gray-400 shadow-lg hover:shadow-xl transition-all duration-300"
-                    >
-                      {isGoogleReady ? (
-                        <>
-                          <svg className="mr-3 h-6 w-6" viewBox="0 0 24 24">
-                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                          </svg>
-                          Sign in with Google
-                        </>
-                      ) : (
-                        <>
-                          <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                          Loading Google...
-                        </>
-                      )}
-                    </Button>
+                  {/* Google Sign-In (GIS renderButton — JWT, no OAuth redirect_uri) */}
+                  <div className="w-full space-y-2">
+                    {!process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID && (
+                      <p className="text-center text-sm text-amber-700">
+                        Google sign-in is not configured (missing NEXT_PUBLIC_GOOGLE_CLIENT_ID).
+                      </p>
+                    )}
+                    <div
+                      ref={googleBtnRef}
+                      className="flex min-h-[48px] w-full items-center justify-center"
+                    />
+                    {!isGoogleReady && (
+                      <div className="flex items-center justify-center gap-2 text-sm text-gray-500">
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                        Loading Google…
+                      </div>
+                    )}
                   </div>
 
                   {/* Sign Up Link */}

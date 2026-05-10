@@ -162,12 +162,13 @@ class DoctorListViewSet(viewsets.ViewSet):
         return Response(doctor_list)
 
 
-class FHIRDiagnosticReportViewSet(viewsets.ReadOnlyModelViewSet):
+class FHIRDiagnosticReportViewSet(viewsets.ModelViewSet):
     """
-    ViewSet for FHIR Diagnostic Reports (read-only for patients/doctors)
+    ViewSet for FHIR Diagnostic Reports (read + delete for doctors)
     """
     serializer_class = FHIRDiagnosticReportSerializer
     permission_classes = [IsAuthenticated]
+    http_method_names = ['get', 'delete', 'head', 'options']
     
     def get_queryset(self):
         """Return FHIR reports based on user role"""
@@ -179,6 +180,17 @@ class FHIRDiagnosticReportViewSet(viewsets.ReadOnlyModelViewSet):
         elif user.role == 'admin':
             return FHIRDiagnosticReport.objects.all()
         return FHIRDiagnosticReport.objects.none()
+    
+    def destroy(self, request, *args, **kwargs):
+        """Only the owning doctor can delete a FHIR report."""
+        report = self.get_object()
+        if request.user.role != 'doctor' or report.doctor_id != request.user.id:
+            return Response(
+                {'error': 'Only the owning doctor can delete this report.'},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+        report.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
     
     @action(detail=True, methods=['get'], url_path='fhir-json')
     def get_fhir_json(self, request, pk=None):
@@ -192,3 +204,4 @@ class FHIRDiagnosticReportViewSet(viewsets.ReadOnlyModelViewSet):
         reports = self.get_queryset().order_by('-issued')
         serializer = self.get_serializer(reports, many=True)
         return Response(serializer.data)
+

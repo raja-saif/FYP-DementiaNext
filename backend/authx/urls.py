@@ -8,6 +8,7 @@ urlpatterns = [
     path('auth/google', views.google_login, name='google_login'),
     path('profile', views.get_profile, name='get_profile'),
     path('auth/doctors/', views.list_doctors, name='list_doctors'),
+    path('auth/patients/', views.list_patients, name='list_patients'),
 ]
 
 
