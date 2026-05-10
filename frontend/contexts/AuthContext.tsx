@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { PUBLIC_API_BASE_URL } from '@/lib/publicApi'
 
 type UserRole = 'patient' | 'doctor' | 'admin' | null
 
@@ -91,7 +90,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true)
   const router = useRouter()
 
-  const apiUrl = (path: string) => `${PUBLIC_API_BASE_URL}${path}`
+  const apiBase = (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000').replace(/\/$/, '')
+  const apiUrl = (path: string) => `${apiBase}${path}`
 
   const userRole = user?.role || null
   const isAuthenticated = !!user

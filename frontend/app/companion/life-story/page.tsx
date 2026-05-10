@@ -7,7 +7,7 @@ import ProtectedRoute from '@/components/ProtectedRoute'
 import { Mic, Trash2, User, BookOpen, Volume2, ArrowLeft } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
-import { PUBLIC_API_BASE_URL as API_BASE } from '@/lib/publicApi'
+const API_BASE = (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000').replace(/\/$/, '')
 
 interface Entry {
   id: number

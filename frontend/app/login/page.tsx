@@ -24,7 +24,6 @@ import {
   AlertCircle
 } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
-import { PUBLIC_API_BASE_URL } from '@/lib/publicApi'
 
 declare global {
   interface Window {
@@ -120,7 +119,10 @@ export default function LoginPage() {
             name?: string
             sub?: string
           }
-          const res = await fetch(`${PUBLIC_API_BASE_URL}/api/auth/google`, {
+          const apiBase = (
+            process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000'
+          ).replace(/\/$/, '')
+          const res = await fetch(`${apiBase}/api/auth/google`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

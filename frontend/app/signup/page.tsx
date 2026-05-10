@@ -28,7 +28,6 @@ import {
   AlertCircle
 } from 'lucide-react'
 import { useAuth } from '@/contexts/AuthContext'
-import { PUBLIC_API_BASE_URL } from '@/lib/publicApi'
 
 declare global {
   interface Window {
@@ -73,9 +72,10 @@ export default function SignupPage() {
 
   // Helper function for Google authentication
   const loginWithGoogle = async (credential: string, role: 'patient' | 'doctor') => {
+    const apiBase = (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000').replace(/\/$/, '')
     try {
       const decoded = JSON.parse(atob(credential.split('.')[1]))
-      const response = await fetch(`${PUBLIC_API_BASE_URL}/api/auth/google`, {
+      const response = await fetch(`${apiBase}/api/auth/google`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
