@@ -1201,12 +1201,37 @@ class DetectionViewSet(viewsets.ModelViewSet):
             _ensure_ml_libs()
             from .xai import get_gradcam_for_detection
 
-            image_path = detection_result.uploaded_file.path
-            needs_pipeline = self._is_mri_file(image_path)
+            # Resolve NIfTI the same way as explainability() — do not rely only on
+            # uploaded_file.path (ZIP/DICOM may need pipeline; preprocessed path may differ).
+            nifti_path = self._resolve_nifti_path_for_detection(detection_result)
+            if not nifti_path:
+                try:
+                    image_path = detection_result.uploaded_file.path
+                except Exception as exc:
+                    raise ValueError(
+                        'Could not access the uploaded scan path and no preprocessed '
+                        'NIfTI was found. Re-upload the MRI or run detection again.'
+                    ) from exc
+                if not self._is_mri_file(image_path):
+                    return Response(
+                        {
+                            'error': 'Slice explorer needs a 3D MRI (NIfTI, DICOM, or ZIP). '
+                            'Plain 2D images use the single-slice explainability view instead.'
+                        },
+                        status=status.HTTP_400_BAD_REQUEST,
+                    )
+                if not os.path.isfile(image_path):
+                    raise ValueError(
+                        'The original scan file is no longer on disk and no preprocessed '
+                        'NIfTI was found. Re-upload the MRI.'
+                    )
+                nifti_path = self._run_pipeline(image_path)
 
-            if not needs_pipeline:
+            if not nifti_path or not self._is_nifti_path(nifti_path) or not os.path.isfile(
+                nifti_path
+            ):
                 return Response(
-                    {'error': 'Slice explorer is only available for 3D NIfTI MRI volumes'},
+                    {'error': 'No valid NIfTI volume on disk for slice explainability.'},
                     status=status.HTTP_400_BAD_REQUEST,
                 )
 
@@ -1232,13 +1257,6 @@ class DetectionViewSet(viewsets.ModelViewSet):
                     std=[0.229, 0.224, 0.225],
                 ),
             ])
-
-            nifti_path = self._resolve_nifti_path_for_detection(detection_result)
-            if not nifti_path:
-                image_path = detection_result.uploaded_file.path
-                if not os.path.isfile(image_path):
-                    raise ValueError('Original scan file not found on disk.')
-                nifti_path = self._run_pipeline(image_path)
 
             nii = nib.load(nifti_path)
             volume = nii.get_fdata()
@@ -1284,6 +1302,14 @@ class DetectionViewSet(viewsets.ModelViewSet):
                     'confidence': conf,
                     'predicted_class_name': gradcam_result['predicted_class_name'],
                 })
+
+            if not slices_data:
+                return Response(
+                    {'error': 'No slices could be generated for this volume.'},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            if best_idx is None:
+                best_idx = slices_data[len(slices_data) // 2]['index']
 
             return Response({
                 'detection_id': str(detection_result.detection_id),
