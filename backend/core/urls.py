@@ -20,11 +20,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-from . import views as core_views
-
 urlpatterns = [
-    path("", core_views.hf_space_root, name="hf_space_root"),
-    path("api/health", core_views.health_check, name="health_check"),
     path("admin/", admin.site.urls),
     path("api/", include("authx.urls")),
     path("api/detection/", include("detection.urls")),
