@@ -9,18 +9,6 @@
 
 > **Important:** This system is intended for **research, education, and demonstration** only. It is **not** a medical device and must **not** be used as the sole basis for diagnosis or treatment. Clinical use requires validation, regulatory clearance, and supervision by qualified professionals.
 
----
-
-## Why it matters (elevator pitch)
-
-Neurodegenerative conditions place enormous strain on imaging workflows and patient understanding. DementiaNext demonstrates how a disciplined full-stack product can:
-
-- **Automate fragile preprocessing** from real-world uploads (DICOM archives, ZIP, NIfTI).
-- **Ship interpretable ML** so clinicians and reviewers can see **what regions** influenced a prediction.
-- **Pair technical depth with UX**: role-aware portals, reporting, and a **RAG-based companion** that explains results in accessible language—without replacing the clinician.
-
----
-
 ## Highlights
 
 | Area | What we built |
