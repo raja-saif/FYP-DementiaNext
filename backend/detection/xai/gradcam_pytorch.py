@@ -173,7 +173,9 @@ class GradCAM:
         
         device = next(self.model.parameters()).device
         input_tensor = input_tensor.to(device)
-        input_tensor.requires_grad_(True)
+        # Non-leaf tensors from torchvision transforms often do not backprop correctly;
+        # use a fresh leaf so Grad-CAM gets gradients to the conv feature maps.
+        input_tensor = input_tensor.clone().detach().requires_grad_(True)
         
         # Forward pass
         output = self.model(input_tensor)
@@ -204,9 +206,11 @@ class GradCAM:
             confidence = float(probs[0, predicted_class].item())
             target_score = output[0, predicted_class]
         
-        # Grad-CAM++ backward pass — need second-order gradients
+        # Backward pass (first-order gradients only; create_graph breaks on many setups)
         self.model.zero_grad()
-        target_score.backward(retain_graph=True, create_graph=True)
+        if input_tensor.grad is not None:
+            input_tensor.grad.zero_()
+        target_score.backward()
         
         if self.gradients is None:
             raise GradCAMError("Failed to compute gradients. Check model architecture.")
