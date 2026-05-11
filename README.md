@@ -1,28 +1,137 @@
 # DementiaNext
 
-A clean two-tier setup:
-- `backend/` — Django REST API (DRF + SimpleJWT + CORS)
-- `frontend/` — Next.js (React 18 + Tailwind CSS)
+**DementiaNext** is a full-stack **AI-assisted clinical decision-support prototype** for brain MRI analysis, built as a **final-year software engineering project**. It combines **3D MRI preprocessing**, **deep learning–based classification**, **explainable AI (Grad-CAM)**, and a **physician workflow** (appointments, reports, optional FHIR) with an **AI companion** for patient education—wrapped in a modern **Next.js** + **Django REST** platform.
 
-This is the only README. Follow it to run everything.
+| | |
+|---|---|
+| **Repository** | [github.com/raja-saif/FYP-DementiaNext](https://github.com/raja-saif/FYP-DementiaNext) |
+| **Stack** | Next.js 14 · React 18 · TypeScript · Tailwind · Django 5 · Django REST Framework · PostgreSQL · PyTorch |
+
+> **Important:** This system is intended for **research, education, and demonstration** only. It is **not** a medical device and must **not** be used as the sole basis for diagnosis or treatment. Clinical use requires validation, regulatory clearance, and supervision by qualified professionals.
+
+---
+
+## Why it matters (elevator pitch)
+
+Neurodegenerative conditions place enormous strain on imaging workflows and patient understanding. DementiaNext demonstrates how a disciplined full-stack product can:
+
+- **Automate fragile preprocessing** from real-world uploads (DICOM archives, ZIP, NIfTI).
+- **Ship interpretable ML** so clinicians and reviewers can see **what regions** influenced a prediction.
+- **Pair technical depth with UX**: role-aware portals, reporting, and a **RAG-based companion** that explains results in accessible language—without replacing the clinician.
+
+---
+
+## Highlights
+
+| Area | What we built |
+|------|----------------|
+| **Imaging pipeline** | End-to-end path from **DICOM / ZIP / NIfTI** to ML-ready volumes (skull-stripping, normalization, and related steps integrated with the backend). |
+| **Models** | **Binary** dementia screening and **4-class subtype** classifier (**ResNet-34** backbone): Alzheimer’s disease (AD), Parkinson’s disease (PD), frontotemporal dementia (FTD), control/normal (CN)—with stored probabilities and metadata. |
+| **Explainability** | **Grad-CAM** on MRI slices plus **slice-explorer** views aligned with preprocessed NIfTI paths for consistent 3D behavior. |
+| **Clinical-style workflow** | **Patient** and **doctor** roles, **appointments**, **patient reports**, optional **FHIR DiagnosticReport**-oriented API surface. |
+| **Companion (RAG)** | **Chroma** vector store + **sentence-transformers** embeddings, LLM integration patterns (e.g. **Groq**), and **edge-tts** for spoken responses—designed as a supportive explainer, not an autonomous diagnostician. |
+| **Auth & integrations** | **JWT** sessions, email/password, and optional **Google OAuth** (django-allauth / dj-rest-auth + Google Identity flows on the client). |
+| **Deployment-ready patterns** | Clear split of **API base URL** for local, **Vercel**, and **container** (e.g. Hugging Face Space) targets; async detection task hook for long-running inference. |
+
+---
+
+## Architecture
+
+```mermaid
+flowchart LR
+  subgraph client [Web client]
+    FE[Next.js 14 App Router]
+  end
+  subgraph api [Backend API]
+    DJ[Django 5 + DRF]
+    AUTH[JWT / OAuth]
+    DET[Detection + XAI]
+    PIPE[Preprocessing pipeline]
+    COMP[Companion RAG]
+  end
+  subgraph data [Data]
+    PG[(PostgreSQL)]
+    MEDIA[Media / NIfTI workspace]
+    CHROMA[Chroma DB]
+  end
+  FE -->|HTTPS JSON| DJ
+  DJ --> AUTH
+  DJ --> DET
+  DET --> PIPE
+  DET --> MEDIA
+  DJ --> COMP
+  COMP --> CHROMA
+  DJ --> PG
+```
+
+---
+
+## Tech stack (summary)
+
+**Frontend:** Next.js 14, React 18, TypeScript, Tailwind CSS, Framer Motion, Recharts, NextAuth (Google), bcrypt password hashing.
+
+**Backend:** Python 3.10+, Django 5.2, DRF, SimpleJWT, django-cors-headers, PostgreSQL (psycopg2), Pillow, django-allauth + dj-rest-auth.
+
+**ML & imaging:** PyTorch, torchvision, nibabel, OpenCV, scikit-learn/scipy/numpy, matplotlib; custom **MRI preprocessing** phases (DICOM→NIfTI, BIDS-oriented layout, phase-2 intensity/registration/skull-strip steps as implemented in `backend/pipeline/`).
+
+**Companion:** chromadb, sentence-transformers, optional **Groq** API, **edge-tts**.
+
+---
+
+## Repository layout
+
+```
+backend/
+  core/           # Django project settings & URLs
+  authx/          # Users, JWT, registration, Google OAuth hooks
+  detection/      # MRI upload, inference, Grad-CAM, appointments, FHIR-oriented APIs
+  companion/      # RAG companion APIs, Chroma, embeddings
+  pipeline/       # MRI preprocessing orchestration (DICOM / ZIP / NIfTI)
+  models/         # Trained weights (e.g. subtype_classifier.pth) — large files; consider Git LFS for forks
+frontend/
+  app/            # Next.js routes (patient/doctor flows, detection UI, companion)
+  components/     # Shared UI
+  lib/            # API clients, utilities
+README.md         # This document
+```
+
+---
 
 ## Prerequisites
-- Python 3.10+
-- Node.js 18+
 
-## 1) Start the Backend (Django)
+- **Python** 3.10+ (3.12+ supported; match your torch wheels)
+- **Node.js** 18+
+- **PostgreSQL** running locally (default in settings: `dementianext_db`, user/password `postgres`, port `5432`) or override via env vars
+- Optional: **CUDA** for faster PyTorch (CPU works for demos but is slower on full volumes)
+- Optional: API keys for **Groq**, **Google OAuth**, etc. (see below)
 
-### Windows (PowerShell)
+---
+
+## Quick start (local)
+
+### 1. Database
+
+Create a PostgreSQL database (or use Docker). Defaults match `backend/core/settings.py`; override with:
+
+- `DB_NAME`, `DB_USER`, `DB_PASSWORD`, `DB_HOST`, `DB_PORT`
+
+Copy `backend/.env.example` → `backend/.env` if you maintain one, or export variables in your shell.
+
+### 2. Backend
+
+**Windows (PowerShell)**
+
 ```powershell
 cd backend
 python -m venv .venv
-.venv\Scripts\Activate.ps1
+.\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 python manage.py migrate
 python manage.py runserver 8000
 ```
 
-### Linux/macOS
+**Linux / macOS**
+
 ```bash
 cd backend
 python3 -m venv .venv && source .venv/bin/activate
@@ -31,18 +140,12 @@ python manage.py migrate
 python manage.py runserver 8000
 ```
 
-Backend will run on http://127.0.0.1:8000
+API base: **http://127.0.0.1:8000**
 
-### API endpoints used by the frontend
-- POST `/api/register`  → `{ token, user }`
-- POST `/api/login`     → `{ token, user }`
-- POST `/api/auth/verify` → `{ user }`
-- POST `/api/auth/google` → `{ token, user }` (Google OAuth)
+### 3. Frontend
 
-## 2) Start the Frontend (Next.js)
-Open a new terminal:
+**Windows (PowerShell)**
 
-### Windows (PowerShell)
 ```powershell
 cd frontend
 @"
@@ -52,7 +155,8 @@ npm install
 npm run dev
 ```
 
-### Linux/macOS
+**Linux / macOS**
+
 ```bash
 cd frontend
 echo "NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000" > .env.local
@@ -60,177 +164,117 @@ npm install
 npm run dev
 ```
 
-Frontend will run on http://localhost:3000
+App: **http://localhost:3000** (Next may pick **3001** if 3000 is busy).
 
-## 3) Google OAuth Setup (Optional)
+---
 
-Google Sign-In is integrated but requires configuration. Follow these steps to enable it:
+## Environment variables (cheat sheet)
 
-### Get Google OAuth Credentials
+| Variable | Where | Purpose |
+|----------|--------|---------|
+| `NEXT_PUBLIC_API_BASE_URL` | `frontend/.env.local` | Django API origin used by the browser |
+| `DJANGO_SECRET_KEY`, `DJANGO_DEBUG` | `backend` env | Standard Django settings |
+| `DB_*` | `backend` env | PostgreSQL connection |
+| `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | `backend` env | Google OAuth token exchange |
+| `NEXT_PUBLIC_GOOGLE_CLIENT_ID` | `frontend/.env.local` | Google Identity Services |
+| `GROQ_API_KEY` (if used) | `backend` env | Companion LLM backend |
 
-1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project or select an existing one
-3. Navigate to **APIs & Services** > **Credentials**
-4. Click **Create Credentials** > **OAuth 2.0 Client ID**
-5. Configure the OAuth consent screen if prompted
-6. For **Application type**, select **Web application**
-7. Add authorized JavaScript origins:
-   - `http://localhost:3000`
-   - `http://127.0.0.1:3000`
-8. Under **Authorized redirect URIs**, add entries that match how you run the app:
-   - Same host you use in the browser, e.g. `http://localhost:3000` **and** `http://127.0.0.1:3000` if you switch between them.
-   - If you use **NextAuth** in this repo (`/api/auth/[...nextauth]`), also add:
-     - `http://localhost:3000/api/auth/callback/google`
-     - `http://127.0.0.1:3000/api/auth/callback/google`
-     - Plus your production callback URL when you deploy.
-9. Click **Create** and copy your **Client ID** and **Client Secret**
+Optional flags such as **`ASYNC_DETECTION`** may be used in hosted environments to enqueue long-running jobs—see `backend/detection/tasks.py` and related views.
 
-### Configure Backend (Django)
+---
 
-Add these environment variables before starting the Django server:
+## API overview
 
-#### Windows (PowerShell)
-```powershell
-cd backend
-.venv\Scripts\Activate.ps1
+Base paths (all under the API host):
 
-# Set Google OAuth credentials
-$env:GOOGLE_CLIENT_ID = "your-client-id.apps.googleusercontent.com"
-$env:GOOGLE_CLIENT_SECRET = "your-client-secret"
+| Prefix | Area |
+|--------|------|
+| `/api/` | Auth: register, login, verify, Google token exchange |
+| `/api/detection/` | Detections CRUD, upload/inference, explainability & slice endpoints, models metadata, appointments, doctors, patient reports, FHIR-oriented reports |
+| `/api/companion/` | RAG companion chat, knowledge ingestion utilities (as implemented) |
 
-# Run migrations for social auth tables
-python manage.py migrate
+Representative **auth** endpoints used by the SPA:
 
-# Start server
-python manage.py runserver 8000
-```
+- `POST /api/register` → token + user  
+- `POST /api/login` → token + user  
+- `POST /api/auth/verify` → user from token  
+- `POST /api/auth/google` → token + user (when OAuth is configured)
 
-#### Linux/macOS
-```bash
-cd backend
-source .venv/bin/activate
+---
 
-# Set Google OAuth credentials
-export GOOGLE_CLIENT_ID="your-client-id.apps.googleusercontent.com"
-export GOOGLE_CLIENT_SECRET="your-client-secret"
+## Google OAuth (optional)
 
-# Run migrations for social auth tables
-python manage.py migrate
+1. Create an OAuth **Web client** in [Google Cloud Console](https://console.cloud.google.com/).
+2. Add **JavaScript origins** for each dev/prod host you use (`http://localhost:3000`, `http://127.0.0.1:3000`, production `https://…`).
+3. Add **redirect URIs** required by your auth flow (e.g. NextAuth callbacks:  
+   `http://localhost:3000/api/auth/callback/google` — mirror for `127.0.0.1` and production).
+4. Set backend: `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`; frontend: `NEXT_PUBLIC_GOOGLE_CLIENT_ID`.
+5. Restart Django and Next.js after changes.
 
-# Start server
-python manage.py runserver 8000
-```
+If OAuth is not configured, **email/password** authentication still works.
 
-### Configure Frontend (Next.js)
-
-Update your `frontend/.env.local` file:
-
-#### Windows (PowerShell)
-```powershell
-cd frontend
-@"
-NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
-NEXT_PUBLIC_GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
-"@ | Out-File -Encoding UTF8 .env.local
-```
-
-#### Linux/macOS
-```bash
-cd frontend
-cat > .env.local << EOF
-NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
-NEXT_PUBLIC_GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
-EOF
-```
-
-### Test Google Login
-
-1. Start both backend and frontend servers
-2. Open the app using the **same origin** you added in Google Console (e.g. `http://localhost:3000/login`, not `127.0.0.1`, unless that origin is also listed).
-3. Use the **Sign in with Google** button (Google-hosted widget on the login page).
-4. Complete Google authentication; you should land on the patient or doctor dashboard.
-
-**Note**: If Google OAuth is not configured, users can still use email/password authentication.
+---
 
 ## Troubleshooting
 
-### Port Issues
+### Ports in use (Windows)
 
-#### Windows (PowerShell)
 ```powershell
-# Find process using port 8000
 netstat -ano | findstr :8000
-
-# Kill process by PID (replace 1234 with actual PID)
-taskkill /PID 1234 /F
+taskkill /PID <pid> /F
 ```
 
-#### Linux/macOS
-```bash
-lsof -ti:8000,3000,3001,3002 | xargs -r kill -9
-```
+### Verify backend responds
 
-### Backend Health Check
-Verify backend quickly:
-
-#### Windows (PowerShell)
 ```powershell
-Invoke-WebRequest -Uri "http://127.0.0.1:8000/api/auth/verify" `
-  -Method POST `
-  -Headers @{'Content-Type'='application/json'} `
-  -Body '{"token":"invalid"}'
+Invoke-WebRequest -Uri "http://127.0.0.1:8000/api/auth/verify" -Method POST `
+  -Headers @{'Content-Type'='application/json'} -Body '{"token":"invalid"}'
 ```
 
-#### Linux/macOS
-```bash
-curl -s -X POST http://127.0.0.1:8000/api/auth/verify \
-  -H 'Content-Type: application/json' -d '{"token":"invalid"}'
-```
+### Google `redirect_uri_mismatch`
 
-### Google OAuth Issues
+Ensure **origins** and **redirect URIs** in Google Cloud match the **exact** scheme/host/port you type in the browser, including `localhost` vs `127.0.0.1`.
 
-**Error 400: `redirect_uri_mismatch`**
+### Large model files
 
-Google compares the **exact** redirect URL and **JavaScript origins** to your OAuth client settings.
+GitHub warns on blobs **> 50 MB**. Weights under `backend/models/` may exceed that; for collaboration, prefer **Git LFS** or artifact storage in forks.
 
-- Add **Authorized JavaScript origins** for every origin you use: `http://localhost:3000`, `http://127.0.0.1:3000`, and your production `https://` origin (scheme + host + port, no path).
-- If you sign in with **NextAuth** (`signIn('google')` or the NextAuth callback route), add the matching **Authorized redirect URIs** (see step 8 above). The login page uses **Google Identity Services** (JWT) and normally only needs correct **JavaScript origins**; older OAuth token flows required extra redirect URIs.
-- After changing Google Console settings, wait a minute and hard-refresh the app.
+### Push / HTTP timeouts
 
-**"Google OAuth not configured" error:**
-- Ensure `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are set in backend environment
-- Ensure `NEXT_PUBLIC_GOOGLE_CLIENT_ID` is set in `frontend/.env.local`
-- Restart both backend and frontend after setting environment variables
+For large packs over slow links, raise buffers and retry, e.g.:
 
-**Google Sign-In button not appearing:**
-- Check browser console for JavaScript errors
-- Ensure Google Identity Services script is loading (check Network tab)
-- Clear browser cache and reload
-
-**"Invalid Google token" error:**
-- Verify your Client ID matches exactly between frontend and backend
-- Check that your domain (localhost:3000) is authorized in Google Cloud Console
-- Try creating a new OAuth 2.0 Client ID
-
-**Database errors after adding Google OAuth:**
-
-#### Windows (PowerShell)
 ```powershell
-cd backend
-.venv\Scripts\Activate.ps1
-python manage.py migrate
+git -c http.postBuffer=1048576000 -c http.lowSpeedLimit=0 -c http.lowSpeedTime=999999 push origin main
 ```
 
-#### Linux/macOS
-```bash
-cd backend
-source .venv/bin/activate
-python manage.py migrate
-```
+---
 
-## Project Layout
-```
-backend/        # Django project (core/, authx/)
-frontend/       # Next.js app (app/, components/, contexts/, lib/)
-README.md       # This file
-```
+## Deployment notes
+
+- **Frontend:** Deploy on **Vercel** (or similar); set `NEXT_PUBLIC_API_BASE_URL` to your production API URL.
+- **Backend:** Deploy on a Python host **or** a **Docker / Hugging Face Space**-style container; ensure **PostgreSQL** (or managed equivalent), **persistent media volume**, and environment variables are set.
+- **CORS / CSRF:** Tighten `ALLOWED_HOSTS`, CORS, and cookie settings for real production; current defaults favor demos.
+
+---
+
+## Academic & career context
+
+This project demonstrates **end-to-end product engineering**: requirements → architecture → secure APIs → ML operations → responsible-AI affordances (**explainability**, **disclaimers**, audit-friendly logs) → modern UX. It is well suited for discussion at **job fairs**, **technical interviews**, and **capstone review boards**.
+
+**Suggested talking points**
+
+1. Trade-offs between **async jobs** and synchronous inference for MRI workloads.  
+2. Why **NIfTI path resolution** and preprocessing parity matter for **XAI** consistency.  
+3. How **RAG** reduces verbatim hallucinations in patient education—within strict safety bounds.
+
+---
+
+## Contributing & license
+
+Issues and pull requests are welcome for educational forks. Specify your institution’s license if you extend this codebase for credit-bearing work.
+
+---
+
+## Acknowledgments
+
+Built as **FYP-DementiaNext** with open-source tools (PyTorch, Django, Next.js, Chroma, and the broader scientific Python ecosystem). Thanks to maintainers of the libraries listed in `backend/requirements.txt` and `frontend/package.json`.
